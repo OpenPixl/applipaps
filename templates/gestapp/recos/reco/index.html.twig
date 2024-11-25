@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AppliPAP's - Espace user{% endblock %}
+
+{% block navbar%}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="container mx-auto mt-16">
+        <div class="flex flex-col w-full px-2 mb-4">
+            <h1 class="uppercase font-bold text-2xl text-slate-700 w-full">Tableau de bord</h1>
+            <h2>Bienvenue <span>xavier burke</span> </h2>
+        </div>
+        <div class="flex justify-center w-full px-2 mb-6">
+            <div class="bg-white columns-2 w-full divide-x rounded-sm shadow-sm">
+                <div class="p-3">
+                    <h3 class="text-center text-sm font-semibold">Recommandations</h3>
+                    <p class="text-center text-2xl text-gray-500 font-light">O - aucune</p>
+                </div>
+                <div class="p-3">
+                    <h3 class="text-center text-sm font-semibold">Gains</h3>
+                    <p class="text-center text-2xl text-gray-500 font-light">O€</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col w-full px-2 mb-6">
+            <h2 class="uppercase font-light">Vos recommandations</h2>
+            <table>
+                <tr>
+                    <th class="text-sm">Nom</th>
+                    <th class="text-sm">Statut</th>
+                </tr>
+                <tr>
+                    <td class="text-sm" colspan="é">Pas de résulats</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+{% endblock %}
