@@ -2,44 +2,28 @@
     <div class="bg-white columns-3 w-full divide-x rounded-sm shadow-sm">
         <div class="p-3 items-center justify-center">
             <a href="#home" class="text-gray-900 hover:text-indigo-500 flex flex-col items-center justify-center">
-                <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                >
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7m-9 14V9m4 0v14M9 21h6" />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
                 </svg>
+
+                <span class="text-xs mt-1">Profil</span>
+            </a>
+        </div>
+        <div class="p-3 items-center justify-center">
+            <a href="{{ path('paps_gestapp_recos_index') }}" class="text-gray-900 hover:text-indigo-500 flex flex-col items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                </svg>
+
                 <span class="text-xs mt-1">Accueil</span>
             </a>
         </div>
         <div class="p-3 items-center justify-center">
-            <a href="#search" class="text-gray-900 hover:text-indigo-500 flex flex-col items-center justify-center">
-                <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                >
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 10-14 0 7 7 0 0014 0z" />
+            <a href="{{ path('paps_gestapp_recos_new') }}" id="addReco" class="text-gray-900 hover:text-indigo-500 flex flex-col items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
-                <span class="text-xs mt-1">Rechercher</span>
-            </a>
-        </div>
-        <div class="p-3 items-center justify-center">
-            <a href="#profile" class="text-gray-900 hover:text-indigo-500 flex flex-col items-center justify-center">
-                <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                >
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A12.053 12.053 0 0112 15c2.137 0 4.113.529 5.879 1.463m-5.879-7.462a4 4 0 110-8 4 4 0 010 8zm9 4a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span class="text-xs mt-1">Profil</span>
+                <span class="text-xs mt-1">Ajout</span>
             </a>
         </div>
     </div>
