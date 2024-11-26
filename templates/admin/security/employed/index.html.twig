@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employed index{% endblock %}
+
+{% block body %}
+    <h1>Employed index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Password</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>MaidenName</th>
+                <th>Slug</th>
+                <th>Sector</th>
+                <th>IsVerified</th>
+                <th>AvatarName</th>
+                <th>AvatarSize</th>
+                <th>Home</th>
+                <th>Desk</th>
+                <th>Gsm</th>
+                <th>Fax</th>
+                <th>OtherEmail</th>
+                <th>Facebook</th>
+                <th>Instagram</th>
+                <th>Linkedin</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>EmployedPrez</th>
+                <th>IsWebpublish</th>
+                <th>NumCollaborator</th>
+                <th>UrlWeb</th>
+                <th>DateEmployed</th>
+                <th>IsSupprAvatar</th>
+                <th>Iban</th>
+                <th>IsGdpr</th>
+                <th>Genre</th>
+                <th>CiFileName</th>
+                <th>CiFileext</th>
+                <th>CiFilesize</th>
+                <th>IsSupprCi</th>
+                <th>Civility</th>
+                <th>AgreeTerms</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for employed in employeds %}
+            <tr>
+                <td>{{ employed.id }}</td>
+                <td>{{ employed.email }}</td>
+                <td>{{ employed.roles ? employed.roles|json_encode : '' }}</td>
+                <td>{{ employed.password }}</td>
+                <td>{{ employed.firstName }}</td>
+                <td>{{ employed.lastName }}</td>
+                <td>{{ employed.maidenName }}</td>
+                <td>{{ employed.slug }}</td>
+                <td>{{ employed.sector }}</td>
+                <td>{{ employed.isVerified ? 'Yes' : 'No' }}</td>
+                <td>{{ employed.avatarName }}</td>
+                <td>{{ employed.avatarSize }}</td>
+                <td>{{ employed.home }}</td>
+                <td>{{ employed.desk }}</td>
+                <td>{{ employed.gsm }}</td>
+                <td>{{ employed.fax }}</td>
+                <td>{{ employed.otherEmail }}</td>
+                <td>{{ employed.facebook }}</td>
+                <td>{{ employed.instagram }}</td>
+                <td>{{ employed.linkedin }}</td>
+                <td>{{ employed.createdAt ? employed.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ employed.updatedAt ? employed.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ employed.employedPrez }}</td>
+                <td>{{ employed.isWebpublish ? 'Yes' : 'No' }}</td>
+                <td>{{ employed.numCollaborator }}</td>
+                <td>{{ employed.urlWeb }}</td>
+                <td>{{ employed.dateEmployed ? employed.dateEmployed|date('Y-m-d') : '' }}</td>
+                <td>{{ employed.isSupprAvatar ? 'Yes' : 'No' }}</td>
+                <td>{{ employed.iban }}</td>
+                <td>{{ employed.isGdpr ? 'Yes' : 'No' }}</td>
+                <td>{{ employed.genre }}</td>
+                <td>{{ employed.ciFileName }}</td>
+                <td>{{ employed.ciFileext }}</td>
+                <td>{{ employed.ciFilesize }}</td>
+                <td>{{ employed.isSupprCi ? 'Yes' : 'No' }}</td>
+                <td>{{ employed.civility }}</td>
+                <td>{{ employed.agreeTerms ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_admin_security_employed_show', {'id': employed.id}) }}">show</a>
+                    <a href="{{ path('app_admin_security_employed_edit', {'id': employed.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="38">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_security_employed_new') }}">Create new</a>
+{% endblock %}
