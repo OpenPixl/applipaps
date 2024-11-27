@@ -1,5 +1,5 @@
 {{ form_start(form) }}
-<div class="flex justify-center w-full px-2 mb-6">
+<div class="flex justify-center w-full px-2 mb-4">
     <div class="bg-white columns-2 w-full divide-x rounded-sm shadow-sm gap-0">
         <div class="px-2 py-2">
             {# {{ form_label(form.typeReco, null, {'label_attr': {'class': 'block text-xs font-medium text-gray-700', 'for': form.typeReco.vars.label}}) }} #}
@@ -11,13 +11,15 @@
         </div>
     </div>
 </div>
-<div class="flex flex-col justify-center w-full px-2 mb-6">
+<div class="flex flex-col justify-center w-full px-2 mb-4">
     <h2 class="uppercase font-light pb-1 mb-2 border-b">Informations du potentiel recommandé</h2>
     <div class="bg-white w-full divide-x rounded shadow-sm">
+
         <div class="flex flex-col gap-0 px-2 py-1">
             {{ form_label(form.customerFirstName, null, {'label_attr': {'class': 'block text-xs font-medium text-gray-700', 'for': form.customerFirstName.vars.label}}) }}
             {{ form_widget(form.customerFirstName,  {'attr': {'class': 'block w-full text-xs px-2 py-1 border-t border-x rounded-t text-gray-700 focus:outline-none focus:ring focus:ring-blue-200', 'placeholder' : 'Prénom'}}) }}
-            {{ form_widget(form.customerLastName,  {'attr': {'class': 'block w-full text-xs px-2 py-1 border rounded-b text-gray-700 focus:outline-none focus:ring focus:ring-blue-200', 'placeholder' : 'Nom'}}) }}
+            {{ form_widget(form.customerMaiden,  {'attr': {'class': 'block w-full text-xs px-2 py-1 border rounded-b text-gray-700 focus:outline-none focus:ring focus:ring-blue-200', 'placeholder' : 'Nom d\'usage'}}) }}
+            {{ form_widget(form.customerLastName,  {'attr': {'class': 'block w-full text-xs px-2 py-1 border rounded-b text-gray-700 focus:outline-none focus:ring focus:ring-blue-200', 'placeholder' : 'Nom civile'}}) }}
         </div>
         <div class="flex flex-col gap-0 px-2 pt-1 pb-2">
             {{ form_label(form.customerPhone, null, {'label_attr': {'class': 'block text-xs font-medium text-gray-700', 'for': form.customerPhone.vars.label}}) }}
@@ -26,7 +28,7 @@
         </div>
     </div>
 </div>
-<div class="flex flex-col justify-center w-full px-2 mb-6">
+<div class="flex flex-col justify-center w-full px-2 mb-4">
     <h2 class="uppercase font-light pb-1 mb-2 border-b">Informations du bien</h2>
     <div class="bg-white w-full divide-x rounded-sm shadow-sm">
         <div class="flex flex-col gap-0 px-2 py-1">
@@ -34,10 +36,19 @@
             {{ form_widget(form.propertyAddress,  {'attr': {'class': 'block w-full text-xs px-2 py-1 border-t border-x rounded-t text-gray-700 focus:outline-none focus:ring focus:ring-blue-200', 'placeholder' : 'Adresse'}}) }}
             {{ form_widget(form.propertyComplement,  {'attr': {'class': 'block w-full text-xs px-2 py-1 border-t border-x text-gray-700 focus:outline-none focus:ring focus:ring-blue-200', 'placeholder' : 'Complément'}}) }}
             <div class="flex flex-row gap-0">
-                {{ form_widget(form.propertyZipcode,  {'attr': {'class': 'w-20 text-xs px-2 py-1 border-s border-y rounded-bl text-gray-700 focus:outline-none focus:ring focus:ring-blue-200'}}) }}
-                {{ form_widget(form.propertyCity,  {'attr': {'class': 'w-80 text-xs px-2 py-1 border-x border-y  rounded-br text-gray-700 focus:outline-none focus:ring focus:ring-blue-200'}}) }}
+                {{ form_widget(form.propertyZipcode,  {'attr': {'class': 'w-20 text-xs px-2 py-1 border-s border-y rounded-bl text-gray-700 focus:outline-none focus:ring focus:ring-blue-200', 'placeholder':'CP'}}) }}
+                {{ form_widget(form.propertyCity,  {'attr': {'class': 'w-80 text-xs px-2 py-1 border-x border-y  rounded-br text-gray-700 focus:outline-none focus:ring focus:ring-blue-200', 'placeholder':'Commune'}}) }}
             </div>
         </div>
     </div>
 </div>
+<div class="px-2">
+    <button
+            type="submit"
+            class="w-full bg-blue-600 text-white py-1.5 px-3 text-sm rounded-md hover:bg-blue-700 active:bg-blue-800 active:shadow-lg focus:outline-none focus:ring focus:ring-blue-300"
+    >
+        Soumettre ma recommandation
+    </button>
+</div>
+
 {{ form_end(form) }}
