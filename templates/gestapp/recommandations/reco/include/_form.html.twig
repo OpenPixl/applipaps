@@ -13,13 +13,20 @@
 </div>
 <div class="flex flex-col justify-center w-full px-2 mb-4">
     <h2 class="uppercase font-light pb-1 mb-2 border-b">Informations du potentiel recommandé</h2>
-    <div class="bg-white w-full divide-x rounded shadow-sm">
-
+    <div class="bg-white w-full rounded shadow-sm">
         <div class="flex flex-col gap-0 px-2 py-1">
             {{ form_label(form.customerFirstName, null, {'label_attr': {'class': 'block text-xs font-medium text-gray-700', 'for': form.customerFirstName.vars.label}}) }}
-            {{ form_widget(form.customerFirstName,  {'attr': {'class': 'block w-full text-xs px-2 py-1 border-t border-x rounded-t text-gray-700 focus:outline-none focus:ring focus:ring-blue-200', 'placeholder' : 'Prénom'}}) }}
-            {{ form_widget(form.customerMaiden,  {'attr': {'class': 'block w-full text-xs px-2 py-1 border rounded-b text-gray-700 focus:outline-none focus:ring focus:ring-blue-200', 'placeholder' : 'Nom d\'usage'}}) }}
-            {{ form_widget(form.customerLastName,  {'attr': {'class': 'block w-full text-xs px-2 py-1 border rounded-b text-gray-700 focus:outline-none focus:ring focus:ring-blue-200', 'placeholder' : 'Nom civile'}}) }}
+            <div class="flex flex-row justify-start px-2 border-x border-t rounded-t">
+                {% for label, value, choice in field_choices(form.customerCivility) %}
+                    <div class="mb-[0.125rem] me-4 inline-block min-h-[1.5rem]">
+                        <input class="h-3 w-3 text-blue-600 border-gray-300 rounded focus:ring-blue-500" type="radio" name="{{ field_name(form.customerCivility) }}" id="inlineRadio1" value="{{ value }}" {% if value is same as reco.customerCivility %}checked="checked"{% endif %}>
+                        <label class="ml-2 text-xs text-gray-700" for="inlineRadio1">{{ label }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+            {{ form_widget(form.customerFirstName,  {'attr': {'class': 'block w-full text-xs px-2 py-1 border-t border-x text-gray-700 focus:outline-none focus:ring focus:ring-blue-200', 'placeholder' : 'Prénom'}}) }}
+            {{ form_widget(form.customerMaiden,  {'attr': {'class': 'hidden block w-full text-xs px-2 py-1 border-t border-x text-gray-700 focus:outline-none focus:ring focus:ring-blue-200', 'placeholder' : 'Nom d\'usage'}}) }}
+            {{ form_widget(form.customerLastName,  {'attr': {'class': 'block w-full text-xs px-2 py-1 border-x border-y rounded-b text-gray-700 focus:outline-none focus:ring focus:ring-blue-200', 'placeholder' : 'Nom'}}) }}
         </div>
         <div class="flex flex-col gap-0 px-2 pt-1 pb-2">
             {{ form_label(form.customerPhone, null, {'label_attr': {'class': 'block text-xs font-medium text-gray-700', 'for': form.customerPhone.vars.label}}) }}
@@ -30,7 +37,7 @@
 </div>
 <div class="flex flex-col justify-center w-full px-2 mb-4">
     <h2 class="uppercase font-light pb-1 mb-2 border-b">Informations du bien</h2>
-    <div class="bg-white w-full divide-x rounded-sm shadow-sm">
+    <div class="bg-white w-full rounded-sm shadow-sm">
         <div class="flex flex-col gap-0 px-2 py-1">
             {{ form_label(form.propertyAddress, null, {'label_attr': {'class': 'block text-xs font-medium text-gray-700', 'for': form.propertyAddress.vars.label}}) }}
             {{ form_widget(form.propertyAddress,  {'attr': {'class': 'block w-full text-xs px-2 py-1 border-t border-x rounded-t text-gray-700 focus:outline-none focus:ring focus:ring-blue-200', 'placeholder' : 'Adresse'}}) }}
