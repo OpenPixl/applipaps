@@ -60,7 +60,7 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/security/register/prescriber', name: 'op_webapp_security_register_prescriber')]
+    #[Route('/security/register/prescriber', name: 'paps_security_register_prescriber')]
     public function registerPrescriber(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, EmployedRepository $employedRepository): Response
     {
         $user = new Employed();
@@ -110,7 +110,7 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/verify/email', name: 'app_verify_email')]
+    #[Route('/verify/email', name: 'paps_security_verify_email')]
     public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
