@@ -81,6 +81,7 @@ class RegistrationController extends AbstractController
                     )
                 );
                 $user->setReferent($collaborateur);
+                $user->setGenre('prescripteur');
                 $user->setRoles(['ROLE_PRESCRIBER']);
 
                 $entityManager->persist($user);

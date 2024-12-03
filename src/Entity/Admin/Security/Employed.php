@@ -136,6 +136,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private ?bool $isSupprAvatar = false;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\Iban(message: 'This is not a valid International Bank Account Number (IBAN).')]
     private ?string $iban = null;
 
     #[ORM\Column]
