@@ -15,7 +15,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 final class EmployedController extends AbstractController
 {
-    #[Route('/', name: 'app_admin_security_employed_index', methods: ['GET'])]
+    #[Route('/admin/security/employed/index', name: 'app_admin_security_employed_index', methods: ['GET'])]
     public function index(EmployedRepository $employedRepository): Response
     {
         return $this->render('admin/security/employed/index.html.twig', [
