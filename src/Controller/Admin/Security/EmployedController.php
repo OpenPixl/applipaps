@@ -13,11 +13,9 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-
-#[Route('/admin/security/employed')]
 final class EmployedController extends AbstractController
 {
-    #[Route(name: 'app_admin_security_employed_index', methods: ['GET'])]
+    #[Route('/', name: 'app_admin_security_employed_index', methods: ['GET'])]
     public function index(EmployedRepository $employedRepository): Response
     {
         return $this->render('admin/security/employed/index.html.twig', [
@@ -25,7 +23,7 @@ final class EmployedController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_admin_security_employed_new', methods: ['GET', 'POST'])]
+    #[Route('/admin/security/employed/new', name: 'app_admin_security_employed_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $employed = new Employed();
@@ -45,7 +43,7 @@ final class EmployedController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_security_employed_show', methods: ['GET'])]
+    #[Route('/admin/security/employed/{id}', name: 'app_admin_security_employed_show', methods: ['GET'])]
     public function show(Employed $employed): Response
     {
         return $this->render('admin/security/employed/show.html.twig', [
@@ -53,7 +51,7 @@ final class EmployedController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'paps_security_employed_edit', methods: ['GET', 'POST'])]
+    #[Route('/app/prescriptor/{id}/edit', name: 'paps_security_employed_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Employed $employed, EntityManagerInterface $entityManager, SluggerInterface $slugger, ): Response
     {
         $form = $this->createForm(EmployedType::class, $employed);
@@ -124,7 +122,7 @@ final class EmployedController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'paps_admin_security_employed_delete', methods: ['POST'])]
+    #[Route('/admin/security/employed/{id}', name: 'paps_admin_security_employed_delete', methods: ['POST'])]
     public function delete(Request $request, Employed $employed, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$employed->getId(), $request->getPayload()->getString('_token'))) {
@@ -135,7 +133,7 @@ final class EmployedController extends AbstractController
         return $this->redirectToRoute('app_admin_security_employed_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/removeci', name: 'paps_admin_security_employed_removeci', methods: ['POST'])]
+    #[Route('/app/prescriptor/{id}/removeci', name: 'paps_admin_security_employed_removeci', methods: ['POST'])]
     public function removeCi(Request $request, Employed $employed, EntityManagerInterface $em): Response
     {
         $ciFilename = $employed->getCiFileName();
@@ -164,7 +162,7 @@ final class EmployedController extends AbstractController
             ]),
         ], 200);
     }
-    #[Route('/{id}/removeavatar', name: 'paps_admin_security_employed_removeavatar', methods: ['POST'])]
+    #[Route('/app/prescriptor/{id}/removeavatar', name: 'paps_admin_security_employed_removeavatar', methods: ['POST'])]
     public function removeAvatar(Request $request, Employed $employed, EntityManagerInterface $em): Response
     {
         $AvatarName = $employed->getAvatarName();
