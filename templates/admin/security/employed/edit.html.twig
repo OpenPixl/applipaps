@@ -2,12 +2,20 @@
 
 {% block title %}Edit Employed{% endblock %}
 
-{% block body %}
-    <h1>Edit Employed</h1>
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module" src="{{ asset('js/admin/employed/edit.js') }}"></script>
+{% endblock %}
 
-    {{ include('admin/security/employed/_form.html.twig', {'button_label': 'Update'}) }}
+{% block content %}
+    <div class="h-screen container mx-auto mt-16">
+        <div class="flex flex-col w-full px-2 mb-2">
+            <h1 class="uppercase font-bold text-xl text-emerald-700 w-full">Votre compte</h1>
+        </div>
+        {{ include('admin/security/employed/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    </div>
+{% endblock %}
 
-    <a href="{{ path('app_admin_security_employed_index') }}">back to list</a>
-
-    {{ include('admin/security/employed/_delete_form.html.twig') }}
+{% block modals %}
+    {{ parent() }}
 {% endblock %}

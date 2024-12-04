@@ -11,6 +11,8 @@
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
+            <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+            <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         {% endblock %}
     </head>
     <body class="bg-gray-100 h-screen">
@@ -21,6 +23,11 @@
         {% endblock %}
         {% block footer %}
             {{ include('gestapp/app/include/footerbar.html.twig') }}
+        {% endblock %}
+        {% block modals %}
+            <div>
+                {{ include('composants/modalWarning.html.twig') }}
+            </div>
         {% endblock %}
     </body>
 </html>
