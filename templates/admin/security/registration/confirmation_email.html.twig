@@ -1,11 +1,28 @@
-<h1>Hi! Please confirm your email!</h1>
+<!doctype html>
+<html lang="fr">
+{{ include('admin/security/registration/include/head.html.twig') }}
+<div class="body">
+    <div class="container">
+        <div class="header text-center">
+            <a href="#">
+                <img src="{{ email.image('@images/png/LogoPAPSimmo.png') }}" class="logo" alt="Logo" style="height: 100px; width: auto">
+            </a>
+            <h1>[AppliPAP's] : Finalisation de création de compte.</h1>
+        </div>
+        <div class="content">
 
-<p>
-    Please confirm your email address by clicking the following link: <br><br>
-    <a href="{{ signedUrl|raw }}">Confirm my Email</a>.
-    This link will expire in {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
-</p>
+            <h1>Bonjour, vous allez pouvoir confirmer votre E-mail.</h1>
 
-<p>
-    Cheers!
-</p>
+            <p>
+                Pour cela, confirmez-votre adresse email en cliquant sur le lien ci-dessous : <br><br>
+                <a href="{{ signedUrl }}">Je confirme mon e-mail.</a>.<br><br>
+                Ce lien expirera le {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+            </p>
+
+            <p>
+                Merci
+            </p>
+
+        </div>
+    </div>
+</div>

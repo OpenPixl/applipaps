@@ -88,7 +88,7 @@ class RegistrationController extends AbstractController
                 $entityManager->flush();
 
                 // generate a signed url and email it to the user
-                $this->emailVerifier->sendEmailConfirmation('op_webapp_security_verifyemail', $user,
+                $this->emailVerifier->sendEmailConfirmation('paps_security_verify_email', $user,
                     (new TemplatedEmail())
                         ->from(new Address('contact@papsimmo40.fr', 'Contact Paps Immo 40'))
                         ->to($user->getEmail())
