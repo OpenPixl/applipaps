@@ -111,15 +111,28 @@ final class EmployedController extends AbstractController
 
             $entityManager->flush();
 
+
+
             return $this->redirectToRoute('paps_security_employed_edit', [
                 'id' => $employed->getId(),
             ], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin/security/employed/edit.html.twig', [
-            'employed' => $employed,
-            'form' => $form,
-        ]);
+        $iban = $employed->getIban();
+
+        if ($iban) {
+            $iban = $this->maskRib($employed->getIban());
+            return $this->render('admin/security/employed/edit.html.twig', [
+                'employed' => $employed,
+                'form' => $form,
+                'iban' => $iban,
+            ]);
+        }else{
+            return $this->render('admin/security/employed/edit.html.twig', [
+                'employed' => $employed,
+                'form' => $form,
+            ]);
+        }
     }
 
     #[Route('/admin/security/employed/{id}', name: 'paps_admin_security_employed_delete', methods: ['POST'])]
@@ -162,6 +175,7 @@ final class EmployedController extends AbstractController
             ]),
         ], 200);
     }
+
     #[Route('/app/prescriptor/{id}/removeavatar', name: 'paps_admin_security_employed_removeavatar', methods: ['POST'])]
     public function removeAvatar(Request $request, Employed $employed, EntityManagerInterface $em): Response
     {
@@ -192,14 +206,36 @@ final class EmployedController extends AbstractController
         ], 200);
     }
 
+    #[Route('/app/prescriptor/{id}/removeiban', name: 'paps_admin_security_employed_removeiban', methods: ['POST'])]
+    public function removeIban(Request $request, Employed $employed, EntityManagerInterface $em): Response
+    {
+        $form = $this->createForm(EmployedType::class, $employed);
+        $form->handleRequest($request);
+
+        $employed->setIban(null);
+        $em->flush();
+
+        $viewForm = $this->createForm(EmployedType::class, $employed);
+
+        return $this->json([
+            'type' => 'iban',
+            'message' => "IBAN réinitialisé.",
+            'view' => $this->renderView('admin/security/employed/include/_iban.html.twig', [
+                'employed' => $employed,
+                'form' => $viewForm
+            ]),
+        ], 200);
+    }
+
     private function maskRib(string $rib): string
     {
-        $masked = substr($rib, 0, -4); // Partie à masquer
-        $visible = substr($rib, -4);  // Derniers caractères visibles
+        $visStart = substr($rib, 0, 5);
+        $masked = substr($rib, 5, -4); // Partie à masquer
+        $visEnd = substr($rib, -4);  // Derniers caractères visibles
 
         // Remplace les caractères à masquer par 'X' tout en conservant les espaces
         $masked = preg_replace('/[A-Za-z0-9]/', 'X', $masked);
 
-        return $masked . $visible;
+        return $visStart . $masked . $visEnd;
     }
 }

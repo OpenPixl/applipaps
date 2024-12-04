@@ -22,6 +22,20 @@
                 </div>
             {% endif %}
 
+            {% for message in app.flashes('error') %}
+                <div class="bg-red-100 text-red-700 px-4 py-2 rounded mb-4 text-sm">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            {% for message in app.flashes('success') %}
+                <div class="bg-green-100 text-green-700 px-4 py-2 rounded mb-4 text-sm">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+
+
             <form action="{{ path('app_login') }}" method="post" class="space-y-4">
                 <div>
                     <label for="username" class="block text-sm font-medium text-gray-700">Nom d'utilisateur</label>

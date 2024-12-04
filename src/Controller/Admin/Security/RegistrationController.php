@@ -95,17 +95,18 @@ class RegistrationController extends AbstractController
                         ->subject('Please Confirm your Email')
                         ->htmlTemplate('admin/security/registration/confirmation_email2.html.twig')
                 );
-                $this->addFlash('success', 'Votre compte est crée. Toutefois, nous controlons si cette inscription est issu d\'un être humain et nom d\'un robot informatique en vous envoyant un e-mail de confirmation à l\'adresse indiquée. L\'inscription sera définitive après validation de ce mail de votre part.');
+                $this->addFlash('success', 'Votre compte est crée.<br> Toutefois, un lien de confirmation va être envoyé à l\'adresse indiquée pour confirmation. <br>L\'inscription sera définitive après validation de votre part.');
                 // do anything else you need here, like send an email
                 return $this->redirectToRoute('paps_gestapp_app_dashboard');
             }else{
-                $this->addFlash('error_collaborator', "Le collaborateur n'existe pas.");
+                $this->addFlash('error', $form->getErrors());
                 return $this->render('admin/security/registration/register2.html.twig', [
                     'registrationForm' => $form->createView(),
                 ]);
             }
         }
 
+        $this->addFlash('error', $form->getErrors());
         return $this->render('admin/security/registration/register2.html.twig', [
             'registrationForm' => $form->createView(),
         ]);

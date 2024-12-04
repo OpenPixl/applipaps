@@ -34,6 +34,9 @@ function validModal(event){
             else if(response.data.type === 'avatar'){
                 document.getElementById('addAvatar').innerHTML = response.data.view
             }
+            else if(response.data.type === 'iban'){
+                document.getElementById('iban').innerHTML = response.data.view
+            }
         })
         .catch(function(error){
             console.log(error)

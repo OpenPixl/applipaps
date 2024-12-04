@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="259ac9b6-544d-4501-86e7-855b273d12b5" name="OVH - PAPSIMMO - applipaps">
+        <fileTransfer rootFolder="/var/www/html/applipaps" accessType="SFTP" host="51.91.59.33" port="22" sshConfigId="1cfa62d7-1b2b-438d-ad01-5a1ee813fb64" sshConfig="ubuntu@51.91.59.33:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

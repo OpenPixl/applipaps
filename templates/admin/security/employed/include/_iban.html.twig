@@ -1,0 +1,20 @@
+{% if employed.iban is null %}
+    <div class="bg-white w-full rounded shadow-sm">
+        <div class="flex flex-col gap-0 px-2 py-1">
+            {{ form_widget(form.iban,  {'attr': {'class': 'block w-full text-xs px-2 py-1 border rounded text-gray-700 focus:outline-none focus:ring focus:ring-blue-200', 'placeholder' : 'IBAN : FR-76 xxxx xxxx xxxx'}}) }}
+        </div>
+    </div>
+{% else %}
+    <div class="bg-white w-full rounded shadow-sm">
+        <div class="flex flex-row gap-0 px-2 py-1">
+            <input type="text" name="{{ form.iban.vars.name }}" class="block w-full text-xs px-2 py-1 border-s border-t border-b rounded-bs-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-200" value="{{ iban }}" placeholder="IBAN : FR-76 xxxx xxxx xxxx">
+            <div class="flex items-center text-gray-600 text-xs border-e border-t border-b">
+                <a class="openModalWarning" href="{{ path('paps_admin_security_employed_removeiban', {'id':employed.id}) }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endif %}

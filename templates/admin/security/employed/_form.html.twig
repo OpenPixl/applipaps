@@ -53,11 +53,8 @@
     <div class="flex flex-row justify-between">
         <div><p class="text-xs font-medium">2. RIB / IBAN</p></div>
     </div>
-
-    <div class="bg-white w-full rounded shadow-sm">
-        <div class="flex flex-col gap-0 px-2 py-1">
-            {{ form_widget(form.iban,  {'attr': {'class': 'block w-full text-xs px-2 py-1 border rounded text-gray-700 focus:outline-none focus:ring focus:ring-blue-200', 'placeholder' : 'IBAN : FR-76 xxxx xxxx xxxx'}}) }}
-        </div>
+    <div id="iban">
+        {{ include('admin/security/employed/include/_iban.html.twig') }}
     </div>
 
     <p class="text-xs text-gray-600">
