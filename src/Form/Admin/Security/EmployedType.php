@@ -3,7 +3,6 @@
 namespace App\Form\Admin\Security;
 
 use App\Entity\Admin\Security\Employed;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -37,8 +36,8 @@ class EmployedType extends AbstractType
             //->add('instagram')
             //->add('linkedin')
             ->add('isSupprAvatar')
-            //->add('iban')
-            ->add('isGdpr')
+            ->add('iban')
+            //->add('isGdpr')
             //->add('genre')
             ->add('ciFile', FileType::class, [
                 'label' => "Pièce d'identité",
@@ -73,7 +72,7 @@ class EmployedType extends AbstractType
                 'multiple' => false
             ])
             ->add('avatarFile', FileType::class,[
-                'label' => "avatar",
+                'label' => "Photo de profil",
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [

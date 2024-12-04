@@ -59,17 +59,15 @@ final class EmployedController extends AbstractController
         $form = $this->createForm(EmployedType::class, $employed);
         $form->handleRequest($request);
 
-        $iban = $employed->getIban();
-        
-
         if ($form->isSubmitted() && $form->isValid()) {
-
             // ajout de la carte d'identité
             $ci = $form->get('ciFile')->getData();
             $ciFilename = $employed->getCiFileName();
+            // Créer un alias
+
             if($ci) {
                 if ($ciFilename) {
-                    $pathheader = $this->getParameter('employed_ci_directory') . '/' . $ciFilename;
+                    $pathheader = $this->getParameter('prescriptors_directory') . '/' . $ciFilename;
                     // On vérifie si l'image existe
                     if (file_exists($pathheader)) {
                         unlink($pathheader);
@@ -80,7 +78,7 @@ final class EmployedController extends AbstractController
                 $newFilename = $safeFilename . '.' . $ci->guessExtension();
                 try {
                     $ci->move(
-                        $this->getParameter('transaction_acte_directory'),
+                        $this->getParameter('prescriptors_directory'),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -89,9 +87,35 @@ final class EmployedController extends AbstractController
                 $employed->setCiFileName($newFilename);
             }
 
+            $avatar = $form->get('avatarFile')->getData();
+            $avatarFilename = $employed->getAvatarName();
+            if($avatar) {
+                if ($avatarFilename) {
+                    $pathheader = $this->getParameter('prescriptors_directory') . '/' . $avatarFilename;
+                    // On vérifie si l'image existe
+                    if (file_exists($pathheader)) {
+                        unlink($pathheader);
+                    }
+                }
+                $originalFilename = pathinfo($avatar->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '.' . $avatar->guessExtension();
+                try {
+                    $avatar->move(
+                        $this->getParameter('prescriptors_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $employed->setAvatarName($newFilename);
+            }
+
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_admin_security_employed_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('paps_security_employed_edit', [
+                'id' => $employed->getId(),
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('admin/security/employed/edit.html.twig', [
@@ -100,7 +124,7 @@ final class EmployedController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_security_employed_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'paps_admin_security_employed_delete', methods: ['POST'])]
     public function delete(Request $request, Employed $employed, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$employed->getId(), $request->getPayload()->getString('_token'))) {
@@ -109,6 +133,65 @@ final class EmployedController extends AbstractController
         }
 
         return $this->redirectToRoute('app_admin_security_employed_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/removeci', name: 'paps_admin_security_employed_removeci', methods: ['POST'])]
+    public function removeCi(Request $request, Employed $employed, EntityManagerInterface $em): Response
+    {
+        $ciFilename = $employed->getCiFileName();
+        if ($ciFilename) {
+            $path = $this->getParameter('prescriptors_directory') . '/' . $ciFilename;
+            // On vérifie si l'image existe
+            if (file_exists($path)) {
+                unlink($path);
+            }
+        }
+
+        $form = $this->createForm(EmployedType::class, $employed);
+        $form->handleRequest($request);
+
+        $employed->setCiFileName(null);
+        $em->flush();
+
+        $viewForm = $this->createForm(EmployedType::class, $employed);
+
+        return $this->json([
+            'type' => 'ci',
+            'message' => "La pièce d'identité a été correctement supprimée.",
+            'view' => $this->renderView('admin/security/employed/include/_addci.html.twig', [
+                'employed' => $employed,
+                'form' => $viewForm
+            ]),
+        ], 200);
+    }
+    #[Route('/{id}/removeavatar', name: 'paps_admin_security_employed_removeavatar', methods: ['POST'])]
+    public function removeAvatar(Request $request, Employed $employed, EntityManagerInterface $em): Response
+    {
+        $AvatarName = $employed->getAvatarName();
+        if ($AvatarName) {
+            $path = $this->getParameter('prescriptors_directory') . '/' . $AvatarName;
+            // On vérifie si l'image existe
+            if (file_exists($path)) {
+                unlink($path);
+            }
+        }
+
+        $form = $this->createForm(EmployedType::class, $employed);
+        $form->handleRequest($request);
+
+        $employed->setAvatarName(null);
+        $em->flush();
+
+        $viewForm = $this->createForm(EmployedType::class, $employed);
+
+        return $this->json([
+            'type' => 'avatar',
+            'message' => "La photo de profil a été correctement supprimée.",
+            'view' => $this->renderView('admin/security/employed/include/_addavatar.html.twig', [
+                'employed' => $employed,
+                'form' => $viewForm
+            ]),
+        ], 200);
     }
 
     private function maskRib(string $rib): string
