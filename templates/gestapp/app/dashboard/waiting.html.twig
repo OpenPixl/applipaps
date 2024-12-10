@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DashboardController!{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const progressBar = document.getElementById('progress-bar');
+            let progress = 0;
+
+            // Fonction pour augmenter la progression
+            function incrementProgress() {
+                if (progress < 100) {
+                    const increment = Math.floor(Math.random() * 20) + 1; // Avance entre 1 et 10%
+                    progress = Math.min(progress + increment, 100); // Limiter à 100%
+                    progressBar.style.width = `${progress}%`;
+
+                    // Recommencer après un délai aléatoire
+                    setTimeout(incrementProgress, Math.random() * 500 + 200); // Délai entre 200ms et 700ms
+                } else {
+                    // Rediriger après 100%
+                    setTimeout(() => {
+                        window.location.href = "{{ path('paps_gestapp_app_dashboard') }}";
+                    }, 250); // Attendre un peu avant de rediriger
+                }
+            }
+
+            incrementProgress();
+        });
+    </script>
+{% endblock %}
+
+{% block navbar %}
+{% endblock %}
+
+{% block content %}
+<div class="h-screen flex flex-col items-center">
+    <div class="h-2/5 w-full relative">
+        <img src="{{ asset('images/jpg/Wait_Background.jpg') }}" alt="" class="object-cover w-full h-full">
+    </div>
+    <div class="relative -mt-10 bg-white w-11/12 p-4 rounded-lg shadow-lg flex flex-col items-center">
+
+        <h1 class="text-2xl font-bold mb-4 text-center justify-center">Bienvenue sur AppliPAPS</h1>
+        <div class="w-4/5 max-w-xs text-center mb-6">
+            <img src="{{ asset('images/png/LogoPAPSimmo.png') }}" alt="Logo PAPS Immo" class="mx-auto w-100 h-100">
+        </div>
+        <p class="text-gray-700 text-center">Connectez vos proches à un mandataire immobilier en quelques clics et facilitez leurs projets immobiliers !</p>
+        <div class="mt-6 w-full bg-gray-300 rounded-full h-6 overflow-hidden">
+            <div id="progress-bar" class="bg-blue-500 h-full w-0 transition-all duration-300"></div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

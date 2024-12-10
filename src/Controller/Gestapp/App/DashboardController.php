@@ -8,7 +8,13 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class DashboardController extends AbstractController
 {
-    #[Route('/', name: 'paps_gestapp_app_dashboard')]
+
+    #[Route('/', name: 'paps_gestapp_app_waiting')]
+    public function waiting(){
+        return $this->render('gestapp/app/dashboard/waiting.html.twig');
+    }
+
+    #[Route('/dashboard', name: 'paps_gestapp_app_dashboard')]
     public function index(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');

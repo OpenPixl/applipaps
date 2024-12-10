@@ -69,7 +69,6 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $code = $form->get('numCollaborator')->getData();
-
             $collaborateur = $employedRepository->findOneBy(['numCollaborator'=> $code]);
             //dd($collaborateur);
             if($collaborateur){
@@ -99,14 +98,13 @@ class RegistrationController extends AbstractController
                 // do anything else you need here, like send an email
                 return $this->redirectToRoute('paps_gestapp_app_dashboard');
             }else{
-                $this->addFlash('error', $form->getErrors());
+
                 return $this->render('admin/security/registration/register2.html.twig', [
                     'registrationForm' => $form->createView(),
                 ]);
             }
         }
 
-        $this->addFlash('error', $form->getErrors());
         return $this->render('admin/security/registration/register2.html.twig', [
             'registrationForm' => $form->createView(),
         ]);

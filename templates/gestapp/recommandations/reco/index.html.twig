@@ -8,10 +8,27 @@
 
 {% block content %}
     <div class="container mx-auto mt-16">
-        <div class="flex flex-col w-full px-2 mb-4">
-            <h1 class="uppercase font-bold text-xl text-slate-700 w-full">Tableau de bord</h1>
-            <h2>Bienvenue <span>xavier burke</span> </h2>
+        <div class="flex flex-col w-full px-2 mb-2">
+
+            <div class="flex flex-row items-center gap-1 mb-1">
+                <div>
+                    {% if app.user.avatarName is null %}
+                        <div class="bg-gray-200 p-2 rounded-full h-14 w-14 text-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A8.962 8.962 0 0112 15a8.962 8.962 0 016.879 2.804M12 12a4 4 0 100-8 4 4 0 000 8z" />
+                            </svg>
+                        </div>
+                    {% else %}
+                        <img src="{{ asset('prescriptors/') ~ app.user.avatarName }}" alt="{{ app.user.avatarName }}" class="h-14 w-14 rounded-full">
+                    {% endif %}
+                </div>
+                <div>
+                    <h2>Bienvenue <span>xavier burke</span></h2>
+                </div>
+            </div>
+            <h1 class="uppercase font-bold text-xl text-emerald-700 w-full">Tableau de bord</h1>
         </div>
+
         <div class="flex justify-center w-full px-2 mb-6">
             <div class="bg-white columns-2 w-full divide-x rounded-sm shadow-sm">
                 <div class="p-3">

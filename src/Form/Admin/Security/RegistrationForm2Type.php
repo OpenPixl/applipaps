@@ -20,13 +20,17 @@ class RegistrationForm2Type extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('firstName')
+            ->add('firstName', TextType::class, [
+                'label' => 'Nom & prénom'
+            ])
             ->add('lastName')
             ->add('numCollaborator', TextType::class, [
                 'label' => 'Code du Mandataire',
                 'mapped' => false
             ])
-            ->add('gsm')
+            ->add('gsm', TextType::class, [
+                'label' => 'Portable | Fixe'
+            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'constraints' => [
                     new IsTrue([
@@ -37,6 +41,7 @@ class RegistrationForm2Type extends AbstractType
             ->add('password', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
+                'label' => 'Mot de passe',
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [

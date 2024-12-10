@@ -6,42 +6,38 @@
 
 {% block content %}
     <div class="h-screen flex flex-col items-center justify-center ">
-        {% for message in app.flashes('verify_email_error') %}
-            <div class="bg-red-100 text-red-700 px-4 py-2 rounded mb-4 text-sm">
-                {{ message }}
-            </div>
-        {% endfor %}
-        {% for message in app.flashes('error') %}
-            <div class="bg-red-100 text-red-700 px-4 py-2 rounded mb-4 text-sm">
-                {{ message }}
-            </div>
-        {% endfor %}
+        {{ form_start(registrationForm) }}
 
-        {{ dump(app) }}
 
         <div class="w-full max-w-xs bg-white p-6 rounded-lg shadow-md">
             <h2 class="text-xl font-bold text-gray-800 text-center mb-4">Création de votre compte</h2>
+            {% for message in app.flashes('verify_email_error') %}
+                <div class="bg-red-100 text-red-700 px-4 py-2 rounded mb-4 text-xs">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% include 'composants/errors.html.twig' with { 'errors': registrationForm.email.vars.errors } %}
 
-            {{ form_start(registrationForm) }}
             <div class="mb-2">
                 {{ form_label(registrationForm.numCollaborator, null, {'label_attr': {'class': 'block text-xs font-medium text-gray-700', 'for': registrationForm.numCollaborator.vars.label}}) }}
-                {{ form_widget(registrationForm.numCollaborator,  {'attr': {'class': 'w-full text-xs px-3 py-2 border rounded-lg bg-cyan-600/[.20] text-gray-700 focus:outline-none focus:ring focus:ring-blue-200'}}) }}
+                {{ form_widget(registrationForm.numCollaborator,  {'attr': {'class': 'w-full text-xs px-3 py-2 border rounded-lg bg-cyan-600/[.20] text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-200', 'placeholder':'000000'}}) }}
             </div>
-            <div class="flex flex-col items-center gap-0">
-                {{ form_widget(registrationForm.firstName,  {'attr': {'class': 'block w-full text-xs px-3 py-2 border rounded-t-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-200'}}) }}
-                {{ form_widget(registrationForm.lastName,  {'attr': {'class': 'block w-full text-xs px-3 py-2 border rounded-b-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-200'}}) }}
+            <div class="flex flex-col items-left gap-0">
+                {{ form_label(registrationForm.firstName, null, {'label_attr': {'class': 'block text-xs font-medium text-gray-700', 'for': registrationForm.numCollaborator.vars.label}}) }}
+                {{ form_widget(registrationForm.firstName,  {'attr': {'class': 'block w-full text-xs px-3 py-2 border rounded-t-lg text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-200 focus:z-10', 'placeholder':'prénom'}}) }}
+                {{ form_widget(registrationForm.lastName,  {'attr': {'class': 'block w-full text-xs px-3 py-2 border rounded-b-lg text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-200', 'placeholder':'Nom'}}) }}
             </div>
             <div class="mb-2">
                 {{ form_label(registrationForm.email, null, {'label_attr': {'class': 'block text-xs font-medium text-gray-700', 'for': registrationForm.email.vars.label}}) }}
-                {{ form_widget(registrationForm.email,  {'attr': {'class': 'w-full text-xs px-3 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-200'}}) }}
+                {{ form_widget(registrationForm.email,  {'attr': {'class': 'w-full text-xs px-3 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-200', 'placeholder':'Votre e-mail'}}) }}
             </div>
             <div class="mb-2">
                 {{ form_label(registrationForm.gsm, null, {'label_attr': {'class': 'block text-xs font-medium text-gray-700', 'for': registrationForm.gsm.vars.label}}) }}
-                {{ form_widget(registrationForm.gsm,  {'attr': {'class': 'w-full text-xs px-3 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-200'}}) }}
+                {{ form_widget(registrationForm.gsm,  {'attr': {'class': 'w-full text-xs px-3 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-200', 'placeholder':'0000000000'}}) }}
             </div>
             <div class="mb-2">
                 {{ form_label(registrationForm.password, null, {'label_attr': {'class': 'block text-xs font-medium text-gray-700', 'for': registrationForm.password.vars.label}}) }}
-                {{ form_widget(registrationForm.password,  {'attr': {'class': 'w-full text-xs px-3 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-200'}}) }}
+                {{ form_widget(registrationForm.password,  {'attr': {'class': 'w-full text-xs px-3 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-200'}}) }}
             </div>
             <div class="mb-2">
                 <p class="text-xs">En cochant la case ci-dessous, vous acceptez que <b>PAP's immo</b> collecte et traite vos données personnelles conformément à notre <a href="#">Politique de Confidentialité</a>. Vous disposez de droits d'accès, de rectification et de suppression de vos données, que vous pouvez exercer à tout moment..</p>
@@ -52,12 +48,15 @@
             </div>
             <button
                     type="submit"
-                    class="w-full bg-blue-600 text-white py-1.5 px-3 text-sm rounded-md hover:bg-blue-700 active:bg-blue-800 active:shadow-lg focus:outline-none focus:ring focus:ring-blue-300"
+                    class="w-full bg-blue-600 text-white py-1.5 px-3 text-sm rounded-md hover:bg-blue-700 active:bg-blue-800 active:shadow-lg focus:outline-none focus:ring-1 focus:ring-blue-300"
             >
                 Valider l'inscription
             </button>
-            {{ form_end(registrationForm) }}
+            <div class="text-center mt-4">
+                <a href="{{ path('app_login') }}" class="text-sm text-blue-600 hover:underline">Retour à la connexion</a>
+            </div>
         </div>
+        {{ form_end(registrationForm) }}
     </div>
 
 
