@@ -42,7 +42,9 @@ class RecoType extends AbstractType
                 'label' => 'Contacts'
             ])
             ->add('customerEmail')
-            ->add('propertyAddress')
+            ->add('propertyAddress', TextType::class, [
+                'label' => 'Adresse du bien'
+            ])
             ->add('propertyComplement')
             ->add('propertyZipcode')
             ->add('propertyCity')

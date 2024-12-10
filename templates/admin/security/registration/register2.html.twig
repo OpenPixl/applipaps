@@ -17,6 +17,8 @@
                 </div>
             {% endfor %}
             {% include 'composants/errors.html.twig' with { 'errors': registrationForm.email.vars.errors } %}
+            {% include 'composants/errors.html.twig' with { 'errors': registrationForm.password.vars.errors } %}
+
 
             <div class="mb-2">
                 {{ form_label(registrationForm.numCollaborator, null, {'label_attr': {'class': 'block text-xs font-medium text-gray-700', 'for': registrationForm.numCollaborator.vars.label}}) }}
@@ -53,7 +55,7 @@
                 Valider l'inscription
             </button>
             <div class="text-center mt-4">
-                <a href="{{ path('app_login') }}" class="text-sm text-blue-600 hover:underline">Retour à la connexion</a>
+                <a href="{{ path('paps_admin_security_login') }}" class="text-sm text-blue-600 hover:underline">Retour à la connexion</a>
             </div>
         </div>
         {{ form_end(registrationForm) }}
