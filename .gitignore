@@ -21,6 +21,7 @@
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/
+/public/prescriptors/
 postcss.config.js
 tailwind.config.js
 npm-debug.log
