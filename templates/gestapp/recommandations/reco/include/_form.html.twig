@@ -1,37 +1,42 @@
 {{ form_start(form) }}
+
 <div class="flex justify-center w-full px-2 mb-4">
     <div class="bg-white columns-2 w-full divide-x rounded-sm shadow-sm gap-0">
         <div class="px-2 py-2">
-            {# {{ form_label(form.typeReco, null, {'label_attr': {'class': 'block text-xs font-medium text-gray-700', 'for': form.typeReco.vars.label}}) }} #}
-            {{ form_widget(form.typeReco,  {'attr': {'class': 'w-full text-xs px-3 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200'}}) }}
+            {# {{ form_label(form.typeReco, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700', 'for': form.typeReco.vars.label}}) }} #}
+            {{ form_widget(form.typeReco,  {'attr': {'class': 'w-full text-sm px-3 py-2 border rounded text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200'}}) }}
         </div>
         <div class="px-2 py-2">
-            {# {{ form_label(form.typeProperty, null, {'label_attr': {'class': 'block text-xs font-medium text-gray-700', 'for': form.typeProperty.vars.label}}) }} #}
-            {{ form_widget(form.typeProperty,  {'attr': {'class': 'w-full text-xs px-3 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200'}}) }}
+            {# {{ form_label(form.typeProperty, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700', 'for': form.typeProperty.vars.label}}) }} #}
+            {{ form_widget(form.typeProperty,  {'attr': {'class': 'w-full text-sm px-3 py-2 border rounded text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200'}}) }}
         </div>
     </div>
+</div>
+<div class="flex flex-col gap-0 px-2 py-1">
+    {{ form_label(form.title, null, {'label_attr': {'class': 'block text-md font-medium text-emerald-900', 'for': form.title.vars.label}}) }}
+    {{ form_widget(form.title,  {'attr': {'class': 'block w-full text-sm px-2 py-1 border border-emerald-800 rounded text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Titre de votre recommandation'}}) }}
 </div>
 <div class="flex flex-col justify-center w-full px-2 mb-4">
     <h2 class="uppercase font-light pb-1 mb-2 border-b">Informations du potentiel recommandé</h2>
     <div class="bg-white w-full rounded shadow-sm">
         <div class="flex flex-col gap-0 px-2 py-1">
-            {{ form_label(form.customerFirstName, null, {'label_attr': {'class': 'block text-xs font-medium text-gray-700', 'for': form.customerFirstName.vars.label}}) }}
+            {{ form_label(form.customerFirstName, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700', 'for': form.customerFirstName.vars.label}}) }}
             <div class="flex flex-row justify-start px-2 border-x border-t rounded-t">
                 {% for label, value, choice in field_choices(form.customerCivility) %}
                     <div class="mb-[0.125rem] me-4 inline-block min-h-[1.5rem]">
                         <input class="h-3 w-3 text-blue-600 border-gray-300 rounded focus:ring-1 focus:z-10 focus:ring-blue-500" type="radio" name="{{ field_name(form.customerCivility) }}" id="inlineRadio1" value="{{ value }}" {% if value is same as reco.customerCivility %}checked="checked"{% endif %}>
-                        <label class="ml-2 text-xs text-gray-700" for="inlineRadio1">{{ label }}</label>
+                        <label class="ml-2 text-sm text-gray-700" for="inlineRadio1">{{ label }}</label>
                     </div>
                 {% endfor %}
             </div>
-            {{ form_widget(form.customerFirstName,  {'attr': {'class': 'block w-full text-xs px-2 py-1 border-t border-x text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Prénom'}}) }}
-            {{ form_widget(form.customerMaiden,  {'attr': {'class': 'hidden block w-full text-xs px-2 py-1 border-t border-x text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Nom d\'usage'}}) }}
-            {{ form_widget(form.customerLastName,  {'attr': {'class': 'block w-full text-xs px-2 py-1 border-x border-y rounded-b text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Nom'}}) }}
+            {{ form_widget(form.customerFirstName,  {'attr': {'class': 'block w-full text-sm px-2 py-1 border-t border-x text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Prénom'}}) }}
+            {{ form_widget(form.customerMaiden,  {'attr': {'class': 'hidden block w-full text-sm px-2 py-1 border-t border-x text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Nom d\'usage'}}) }}
+            {{ form_widget(form.customerLastName,  {'attr': {'class': 'block w-full text-sm px-2 py-1 border-x border-y rounded-b text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Nom'}}) }}
         </div>
         <div class="flex flex-col gap-0 px-2 pt-1 pb-2">
-            {{ form_label(form.customerPhone, null, {'label_attr': {'class': 'block text-xs font-medium text-gray-700', 'for': form.customerPhone.vars.label}}) }}
-            {{ form_widget(form.customerPhone,  {'attr': {'class': 'block w-full text-xs px-2 py-1 border-t border-x rounded-t text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Téléphone'}}) }}
-            {{ form_widget(form.customerEmail,  {'attr': {'class': 'block w-full text-xs px-2 py-1 border rounded-b text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Email'}}) }}
+            {{ form_label(form.customerPhone, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700', 'for': form.customerPhone.vars.label}}) }}
+            {{ form_widget(form.customerPhone,  {'attr': {'class': 'block w-full text-sm px-2 py-1 border-t border-x rounded-t text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Téléphone'}}) }}
+            {{ form_widget(form.customerEmail,  {'attr': {'class': 'block w-full text-sm px-2 py-1 border rounded-b text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Email'}}) }}
         </div>
     </div>
 </div>
@@ -39,12 +44,15 @@
     <h2 class="uppercase font-light pb-1 mb-2 border-b">Informations du bien</h2>
     <div class="bg-white w-full rounded-sm shadow-sm">
         <div class="flex flex-col gap-0 px-2 py-1">
-            {{ form_label(form.propertyAddress, null, {'label_attr': {'class': 'block text-xs font-medium text-gray-700', 'for': form.propertyAddress.vars.label}}) }}
-            {{ form_widget(form.propertyAddress,  {'attr': {'class': 'block w-full text-xs px-2 py-1 border-t border-x rounded-t text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Adresse'}}) }}
-            {{ form_widget(form.propertyComplement,  {'attr': {'class': 'block w-full text-xs px-2 py-1 border-t border-x text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Complément'}}) }}
+            {{ form_label(form.propertyAddress, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700', 'for': form.propertyAddress.vars.label}}) }}
+            {{ form_widget(form.propertyAddress,  {'attr': {'class': 'block w-full text-sm px-2 py-1 border-t border-x rounded-t text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Adresse'}}) }}
+            {{ form_widget(form.propertyComplement,  {'attr': {'class': 'block w-full text-sm px-2 py-1 border-t border-x text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Complément'}}) }}
             <div class="flex flex-row gap-0">
-                {{ form_widget(form.propertyZipcode,  {'attr': {'class': 'w-20 text-xs px-2 py-1 border-s border-y rounded-bl text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder':'CP'}}) }}
-                {{ form_widget(form.propertyCity,  {'attr': {'class': 'w-80 text-xs px-2 py-1 border-x border-y  rounded-br text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder':'Commune'}}) }}
+                {{ form_widget(form.propertyZipcode,  {'attr': {'class': 'w-20 text-sm px-2 py-1 border-s border-y rounded-bl text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder':'CP'}}) }}
+                {{ form_widget(form.propertyCity,  {'attr': {'class': 'hidden w-80 text-sm px-2 py-1 border-x border-y rounded-br text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder':'Commune'}}) }}
+                <select id="selectcity" class="w-80 text-sm px-2 py-1 border-x border-y bg-white rounded-br text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200">
+                    <option>{{ form.propertyZipcode.vars.data }} - {{ form.propertyCity.vars.data }}</option>
+                </select>
             </div>
         </div>
     </div>

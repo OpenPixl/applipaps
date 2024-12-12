@@ -19,7 +19,7 @@
                             </svg>
                         </div>
                     {% else %}
-                        <img src="{{ asset('prescriptors/') ~ app.user.avatarName }}" alt="{{ app.user.avatarName }}" class="h-14 w-14 rounded-full">
+                        <img src="{{ asset('prescriptors/') ~ app.user.avatarName }}" alt="{{ app.user.avatarName }}" class="h-14 w-14 rounded-full object-cover">
                     {% endif %}
                 </div>
                 <div>
@@ -46,7 +46,7 @@
             <h2 class="uppercase font-light">Vos recommandations</h2>
             {% for reco in recos %}
                 <div class="bg-white w-full rounded-sm shadow-sm">
-                    <div class="flex items-center justify-between p-4 border-b border-gray-200">
+                    <div class="flex items-center justify-between p-2 border-b border-gray-200">
                         <!-- Section gauche : Miniature -->
                         <div class="flex-shrink-0">
                             <a href="#" class="bg-gray-700 rounded-lg">
@@ -58,18 +58,22 @@
 
                         <!-- Section centrale : Informations du bien -->
                         <div class="ml-4 flex-1">
-                            <h3 class="text-sm font-semibold text-gray-900">Titre du bien</h3>
+                            {% if reco.title is null %}
+                                <h3>Ma recommandation</h3>
+                            {% else %}
+                                <h3 class="text-sm font-semibold text-gray-900">{{ reco.title }}</h3>
+                            {% endif %}
+
                             <p class="text-xs text-gray-500">{{ reco.propertyZipcode }} - {{ reco.propertyCity }}</p>
                         </div>
 
                         <!-- Section droite : Rémunération ou état -->
                         <div class="text-right">
-                            {% if reco.statutReco == '' %}{% endif %}
-                            reco.statutReco
-                            <!-- Afficher soit la rémunération soit l'état -->
-                            <p class="text-lg font-bold text-teal-900">10 000 €</p>
-                            <!-- Si "en cours de vente", décommente cette ligne -->
-                            <!-- <p class="text-sm font-medium text-yellow-500">En cours de vente</p> -->
+                            {% if reco.statutReco in [6,7] %}
+                                <p class="text-lg font-bold text-emerald-900">{{ reco.commission }}€</p>
+                            {% else %}
+                                <p class="text-sm text-emerald-900">{{ reco.statutReco.fr }}</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

@@ -23,7 +23,7 @@ security:
             logout:
                 path: paps_admin_security_logout
                 # where to redirect after logout
-                # target: app_any_route
+                target: paps_gestapp_app_dashboard
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800 # 1 week in seconds

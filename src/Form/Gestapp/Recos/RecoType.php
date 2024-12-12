@@ -18,6 +18,9 @@ class RecoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('title', TextType::class, [
+                'label' => 'Titre de la recommandation'
+            ])
             ->add('customerCivility', ChoiceType::class, [
                 'label' => 'Civilité',
                 'attr' => [
@@ -47,7 +50,9 @@ class RecoType extends AbstractType
             ])
             ->add('propertyComplement')
             ->add('propertyZipcode')
-            ->add('propertyCity')
+            ->add('propertyCity', TextType::class, [
+                'label' => 'commune'
+            ])
 
             ->add('typeProperty', ChoiceType::class,[
                 'label' => 'Type de recommandation',

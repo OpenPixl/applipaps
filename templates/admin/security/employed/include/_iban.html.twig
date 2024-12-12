@@ -1,11 +1,10 @@
 {% if employed.iban is null %}
-    <div class="bg-white w-full rounded shadow-sm">
-        <div class="flex flex-col gap-0 px-2 py-1">
+
+        <div class="flex flex-col gap-0 px-1 py-1">
             {{ form_widget(form.iban,  {'attr': {'class': 'block w-full text-xs px-2 py-1 border rounded text-gray-700 focus:outline-none focus:ring focus:ring-blue-200', 'placeholder' : 'IBAN : FR76 xxxx xxxx xxxx'}}) }}
         </div>
-    </div>
+
 {% else %}
-    <div class="bg-white w-full rounded shadow-sm">
         <div class="flex flex-row gap-0 px-2 py-1">
             <input type="text" name="{{ form.iban.vars.name }}" class="block w-full text-xs px-2 py-1 border-s border-t border-b rounded-bs-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-200" value="{{ iban }}" placeholder="IBAN : FR76 xxxx xxxx xxxx">
             <div class="flex items-center text-gray-600 text-xs border-e border-t border-b">
@@ -16,5 +15,4 @@
                 </a>
             </div>
         </div>
-    </div>
 {% endif %}

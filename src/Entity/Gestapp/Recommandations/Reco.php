@@ -23,6 +23,9 @@ class Reco
     #[ORM\JoinColumn(nullable: false)]
     private ?Employed $refEmployed = null;
 
+    #[ORM\Column(length: 120, nullable: true)]
+    private ?string $title = null;
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $announceCivility = "1";
 
@@ -162,6 +165,18 @@ class Reco
     public function setRefEmployed(?Employed $refEmployed): static
     {
         $this->refEmployed = $refEmployed;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(?string $title): static
+    {
+        $this->title = $title;
 
         return $this;
     }

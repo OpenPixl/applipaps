@@ -1,6 +1,10 @@
 const customerMaidenname = document.getElementById('reco_customerMaiden')
 const civility = document.querySelectorAll('input[name="reco[customerCivility]"]');
 
+let city = document.querySelector('#reco_propertyCity');
+let zipcode = document.querySelector('#reco_propertyZipcode');
+let select = document.querySelector('#selectcity');
+
 // -- visuel sur le nom de jeune fille --
 let valcivility = document.querySelector('input[name=reco\\[customerCivility\\]]:checked').value;
 if (valcivility > 1){
@@ -17,3 +21,47 @@ radioButtonsCivility.forEach(function(radio) {
         }
     });
 });
+
+zipcode.addEventListener('input', function(event){
+    findCommunes(city, zipcode, select);
+});
+select.addEventListener('change', function (event){
+    let value = this.value.split(' ');
+    zipcode.value = value[0];
+    city.value = value[2].toUpperCase();
+});
+
+function removeOptions(selectElement) {
+    var i, L = selectElement.options.length - 1;
+    for(i = L; i >= 0; i--) {
+        selectElement.remove(i);
+    }
+}
+
+function findCommunes(City, Zipcode, Select)
+{
+    if(Zipcode.value.length === 5)
+    {
+        let coord = Zipcode.value;
+        axios
+            .get('https://apicarto.ign.fr/api/codes-postaux/communes/'+ coord)
+            .then(function(response){
+                let features = response.data;
+                removeOptions(Select);
+                features.forEach((element) => {
+                    let name = element['codePostal']+" - "+element['nomCommune'];
+                    let OptSelect = new Option (name.toUpperCase(), name.toUpperCase(), false, true);
+                    Select.options.add(OptSelect);
+                });
+                if (Select.options.length === 1){
+                    let value = Select.value.split(' ');
+                    Zipcode.value = value[0];
+                    City.value = value[2].toUpperCase();
+                }else{
+                    let value = Select.value.split(' ');
+                    Zipcode.value = value[0];
+                    City.value = value[2].toUpperCase();
+                }
+            });
+    }
+}
