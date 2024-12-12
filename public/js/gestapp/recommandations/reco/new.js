@@ -38,30 +38,40 @@ function removeOptions(selectElement) {
     }
 }
 
-function findCommunes(City, Zipcode, Select)
-{
-    if(Zipcode.value.length === 5)
-    {
+// Fonction pour trouver les communes à partir du code postal
+function findCommunes(City, Zipcode, Select) {
+    if (Zipcode.value.length === 5) {
         let coord = Zipcode.value;
-        axios
-            .get('https://apicarto.ign.fr/api/codes-postaux/communes/'+ coord)
-            .then(function(response){
-                let features = response.data;
-                removeOptions(Select);
-                features.forEach((element) => {
-                    let name = element['codePostal']+" - "+element['nomCommune'];
-                    let OptSelect = new Option (name.toUpperCase(), name.toUpperCase(), false, true);
-                    Select.options.add(OptSelect);
-                });
-                if (Select.options.length === 1){
-                    let value = Select.value.split(' ');
-                    Zipcode.value = value[0];
-                    City.value = value[2].toUpperCase();
-                }else{
-                    let value = Select.value.split(' ');
-                    Zipcode.value = value[0];
-                    City.value = value[2].toUpperCase();
+        let xhr = new XMLHttpRequest();
+
+        xhr.open('GET', 'https://apicarto.ign.fr/api/codes-postaux/communes/' + coord, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    let features = JSON.parse(xhr.responseText);
+                    removeOptions(Select);
+
+                    features.forEach((element) => {
+                        let name = element['codePostal'] + " - " + element['nomCommune'];
+                        let OptSelect = new Option(name.toUpperCase(), name.toUpperCase(), false, true);
+                        Select.options.add(OptSelect);
+                    });
+
+                    if (Select.options.length === 1) {
+                        let value = Select.value.split(' ');
+                        Zipcode.value = value[0];
+                        City.value = value[2].toUpperCase();
+                    } else {
+                        let value = Select.value.split(' ');
+                        Zipcode.value = value[0];
+                        City.value = value[2].toUpperCase();
+                    }
+                } else {
+                    console.error('Erreur lors de la requête AJAX :', xhr.statusText);
                 }
-            });
+            }
+        };
+
+        xhr.send();
     }
 }
