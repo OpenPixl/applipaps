@@ -77,4 +77,38 @@ class RecoController extends AbstractController
         ]);
 
     }
+
+    #[Route('/{id}/edit/', name: 'paps_gestapp_recos_edit', methods: ['GET', 'POST'])]
+    public function editOnPublic(Request $request, Reco $reco, EntityManagerInterface $entityManager, StatutRecoRepository $statutRecoRepository): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');
+        $user = $this->getUser();
+        $startReco = $statutRecoRepository->findOneBy(['id' => 1 ]);
+
+        $form = $this->createForm(RecoType::class, $reco, [
+            'action' => $this->generateUrl('paps_gestapp_recos_edit', [
+                'id' => $reco->getId()
+            ]) ,
+            'method' => 'POST',
+            'attr' => [
+                'id' => 'formReco'
+            ]
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager->persist($reco);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('paps_gestapp_recos_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('gestapp/recommandations/reco/edit.html.twig', [
+            'reco' => $reco,
+            'form' => $form,
+        ]);
+
+    }
 }

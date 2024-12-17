@@ -18,7 +18,7 @@
 </div>
 <div class="flex flex-col justify-center w-full px-2 mb-4">
     <h2 class="uppercase font-light pb-1 mb-2 border-b">Informations du potentiel recommandé</h2>
-    <div class="bg-white w-full rounded shadow-sm">
+    <div class="bg-white w-full rounded shadow-sm border-emerald-700 border">
         <div class="flex flex-col gap-0 px-2 py-1">
             {{ form_label(form.customerFirstName, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700', 'for': form.customerFirstName.vars.label}}) }}
             <div class="flex flex-row justify-start px-2 border-x border-t rounded-t">
@@ -42,7 +42,7 @@
 </div>
 <div class="flex flex-col justify-center w-full px-2 mb-4">
     <h2 class="uppercase font-light pb-1 mb-2 border-b">Informations du bien</h2>
-    <div class="bg-white w-full rounded-sm shadow-sm">
+    <div class="bg-white w-full rounded shadow-sm border-emerald-700 border">
         <div class="flex flex-col gap-0 px-2 py-1">
             {{ form_label(form.propertyAddress, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700', 'for': form.propertyAddress.vars.label}}) }}
             {{ form_widget(form.propertyAddress,  {'attr': {'class': 'block w-full text-sm px-2 py-1 border-t border-x rounded-t text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Adresse'}}) }}
