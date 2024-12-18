@@ -10,4 +10,6 @@ pwa:
     icons:
       - src: "images/png/papsimmo-512x512.png"
         sizes: [512]
-  serviceworker: "sw.js"
+  serviceworker:
+    enabled: true
+    src: "sw.js"
