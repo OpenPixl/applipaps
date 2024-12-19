@@ -70,14 +70,14 @@ class RecoType extends AbstractType
             ->add('typeReco', ChoiceType::class,[
                 'label' => 'Type de recommandation',
                 'choices'  => [
-                    'Vente' => 'vente',
-                    'Location' => 'location',
-                    'Acquisition' => 'Acquisition',
+                    'Mettre en vente' => 'vente',
+                    'Mettre en location' => 'location',
+                    'Devenir Acquéreur' => 'Acquisition',
                 ],
                 'choice_attr' => [
-                    'Vente' => ['data-data' => 'Vente'],
-                    'Location' => ['data-data' => 'Location'],
-                    'Acquisition' => ['data-data' => 'Acquisition']
+                    'Mettre en vente' => ['data-data' => 'Mettre en vente'],
+                    'Mettre en location' => ['data-data' => 'Mettre en location'],
+                    'Devenir Acquéreur' => ['data-data' => 'Customize Toolbar…']
                 ],
             ])
         ;
