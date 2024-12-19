@@ -3,7 +3,7 @@ pwa:
     enabled: true
     name: "AppliPAPs"
     short_name: "AppliPAPs"
-    start_url: "/index.html"
+    start_url: "/"
     display: "standalone"
     background_color: "#ffffff"
     theme_color: "#4285f4"
