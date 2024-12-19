@@ -4,6 +4,7 @@ pwa:
     name: "AppliPAPs"
     short_name: "AppliPAPs"
     start_url: "/home"
+    id: "/home"
     display: "standalone"
     background_color: "#ffffff"
     theme_color: "#4285f4"
