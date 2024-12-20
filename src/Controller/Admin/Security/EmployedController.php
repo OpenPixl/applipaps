@@ -18,6 +18,7 @@ final class EmployedController extends AbstractController
     #[Route('/admin/security/employed/index', name: 'app_admin_security_employed_index', methods: ['GET'])]
     public function index(EmployedRepository $employedRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('admin/security/employed/index.html.twig', [
             'employeds' => $employedRepository->findAll(),
         ]);
@@ -26,6 +27,7 @@ final class EmployedController extends AbstractController
     #[Route('/admin/security/employed/new', name: 'app_admin_security_employed_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $employed = new Employed();
         $form = $this->createForm(EmployedType::class, $employed);
         $form->handleRequest($request);
@@ -46,6 +48,7 @@ final class EmployedController extends AbstractController
     #[Route('/admin/security/employed/{id}', name: 'app_admin_security_employed_show', methods: ['GET'])]
     public function show(Employed $employed): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('admin/security/employed/show.html.twig', [
             'employed' => $employed,
         ]);
@@ -54,7 +57,7 @@ final class EmployedController extends AbstractController
     #[Route('/app/prescriptor/{id}/edit', name: 'paps_security_employed_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Employed $employed, EntityManagerInterface $entityManager, SluggerInterface $slugger, ): Response
     {
-        $form = $this->createForm(EmployedType::class, $employed);
+        $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');        $form = $this->createForm(EmployedType::class, $employed);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -138,6 +141,7 @@ final class EmployedController extends AbstractController
     #[Route('/admin/security/employed/{id}', name: 'paps_admin_security_employed_delete', methods: ['POST'])]
     public function delete(Request $request, Employed $employed, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         if ($this->isCsrfTokenValid('delete'.$employed->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($employed);
             $entityManager->flush();
@@ -149,7 +153,7 @@ final class EmployedController extends AbstractController
     #[Route('/app/prescriptor/{id}/removeci', name: 'paps_admin_security_employed_removeci', methods: ['POST'])]
     public function removeCi(Request $request, Employed $employed, EntityManagerInterface $em): Response
     {
-        $ciFilename = $employed->getCiFileName();
+        $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');        $ciFilename = $employed->getCiFileName();
         if ($ciFilename) {
             $path = $this->getParameter('prescriptors_directory') . '/' . $ciFilename;
             // On vérifie si l'image existe
@@ -179,6 +183,7 @@ final class EmployedController extends AbstractController
     #[Route('/app/prescriptor/{id}/removeavatar', name: 'paps_admin_security_employed_removeavatar', methods: ['POST'])]
     public function removeAvatar(Request $request, Employed $employed, EntityManagerInterface $em): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');
         $AvatarName = $employed->getAvatarName();
         if ($AvatarName) {
             $path = $this->getParameter('prescriptors_directory') . '/' . $AvatarName;
@@ -209,6 +214,7 @@ final class EmployedController extends AbstractController
     #[Route('/app/prescriptor/{id}/removeiban', name: 'paps_admin_security_employed_removeiban', methods: ['POST'])]
     public function removeIban(Request $request, Employed $employed, EntityManagerInterface $em): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');
         $form = $this->createForm(EmployedType::class, $employed);
         $form->handleRequest($request);
 

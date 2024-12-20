@@ -5,6 +5,7 @@ namespace App\Form\Admin\Security;
 use App\Entity\Admin\Security\Employed;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,6 +21,18 @@ class RegistrationForm2Type extends AbstractType
     {
         $builder
             ->add('email')
+            ->add('civility', ChoiceType::class, [
+                'label' => 'Civilité',
+                'attr' => [
+                    'class' => 'radio-inline'
+                ],
+                'choices'  => [
+                    'M.' => 1,
+                    "Mme" => 2,
+                ],
+                'expanded' => true,
+                'multiple' => false
+            ])
             ->add('firstName', TextType::class, [
                 'label' => 'Nom & prénom'
             ])
