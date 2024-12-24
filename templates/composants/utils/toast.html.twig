@@ -13,12 +13,12 @@
                 x-transition:leave="transform ease-in duration-300 transition"
                 x-transition:leave-start="translate-y-0 opacity-100"
                 x-transition:leave-end="translate-y-2 opacity-0"
-                class="flex flex-row gap-2 items-center justify-between rounded border mx-2 px-2 py-2 shadow-lg text-white text-sm"
+                class="flex flex-row gap-2 items-center justify-between rounded border mx-2 px-2 py-2 shadow-lg bg-white text-sm"
                 :class="{
-                'bg-white text-emerald-500 border-emerald-500': toast.type === 'success',
-                'bg-white text-sky-500 border-sky-500': toast.type === 'info',
-                'bg-white text-amber-500 border-amber-500': toast.type === 'warning',
-                'bg-white text-red-500': toast.type === 'error'
+                'text-emerald-800 border-emerald-800': toast.type === 'success',
+                'text-sky-500 border-sky-500': toast.type === 'info',
+                'text-amber-500 border-amber-500': toast.type === 'warning',
+                'text-red-500': toast.type === 'error'
             }"
         >
             <span class="text-sm">
