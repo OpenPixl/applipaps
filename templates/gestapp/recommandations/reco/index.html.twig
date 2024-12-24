@@ -2,6 +2,12 @@
 
 {% block title %}AppliPAP's - Espace user{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module" src="{{ asset('js/gestapp/recommandations/reco/index.js') }}"></script>
+
+{% endblock %}
+
 {% block navbar%}
     {{ parent() }}
 {% endblock %}

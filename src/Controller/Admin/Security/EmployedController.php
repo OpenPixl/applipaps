@@ -5,6 +5,7 @@ namespace App\Controller\Admin\Security;
 use App\Entity\Admin\Security\Employed;
 use App\Form\Admin\Security\EmployedType;
 use App\Repository\Admin\Security\EmployedRepository;
+use App\Service\EncryptionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,7 +56,7 @@ final class EmployedController extends AbstractController
     }
 
     #[Route('/app/prescriptor/{id}/edit', name: 'paps_security_employed_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Employed $employed, EntityManagerInterface $entityManager, SluggerInterface $slugger, ): Response
+    public function edit(Request $request, Employed $employed, EntityManagerInterface $entityManager, SluggerInterface $slugger, EncryptionService $encryptionService): Response
     {
         $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');        $form = $this->createForm(EmployedType::class, $employed);
         $form->handleRequest($request);
@@ -112,9 +113,12 @@ final class EmployedController extends AbstractController
                 $employed->setAvatarName($newFilename);
             }
 
+            $iban = $form->get('iban')->getData();
+            $employed->setIban($iban, $encryptionService);
+
             $entityManager->flush();
 
-
+            $this->addFlash('success', 'Votre profil a été correctement mis à jour');
 
             return $this->redirectToRoute('paps_security_employed_edit', [
                 'id' => $employed->getId(),
