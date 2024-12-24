@@ -102,6 +102,8 @@ class RecoController extends AbstractController
             $entityManager->persist($reco);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Un email va être envoyé au mandataire pour lui signaler votre recommandation !');
+
             return $this->redirectToRoute('paps_gestapp_recos_index', [], Response::HTTP_SEE_OTHER);
         }
 

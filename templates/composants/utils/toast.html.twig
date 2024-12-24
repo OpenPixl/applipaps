@@ -1,0 +1,32 @@
+<div x-data="{ toasts: [] }" @toast.window="
+    const { message, type, duration } = $event.detail;
+    const id = Date.now();
+    toasts.push({ id, message, type });
+    setTimeout(() => toasts = toasts.filter(toast => toast.id !== id), duration);
+" class="fixed w-full bottom-20 right-0 z-50">
+    <template x-for="toast in toasts" :key="toast.id">
+        <div
+                x-show="true"
+                x-transition:enter="transform ease-out duration-300 transition"
+                x-transition:enter-start="translate-y-2 opacity-0"
+                x-transition:enter-end="translate-y-0 opacity-100"
+                x-transition:leave="transform ease-in duration-300 transition"
+                x-transition:leave-start="translate-y-0 opacity-100"
+                x-transition:leave-end="translate-y-2 opacity-0"
+                class="flex flex-row gap-2 items-center justify-between rounded border mx-2 px-2 py-2 shadow-lg text-white text-sm"
+                :class="{
+                'bg-white text-emerald-500 border-emerald-500': toast.type === 'success',
+                'bg-white text-sky-500 border-sky-500': toast.type === 'info',
+                'bg-white text-amber-500 border-amber-500': toast.type === 'warning',
+                'bg-white text-red-500': toast.type === 'error'
+            }"
+        >
+            <span class="text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                </svg>
+            </span>
+            <span x-text="toast.message"></span>
+        </div>
+    </template>
+</div>
