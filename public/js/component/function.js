@@ -42,7 +42,7 @@ export function findCommunes(City, Zipcode, Select) {
     }
 }
 
-export function showToast(message, type = 'info', duration = 150000) {
+export function showToast(message, type = 'info', duration = 5000) {
     // Crée un événement personnalisé
     window.dispatchEvent(
         new CustomEvent('toast', {
