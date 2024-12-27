@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -41,8 +42,14 @@ class RegistrationForm2Type extends AbstractType
                 'label' => 'Code du Mandataire',
                 'mapped' => false
             ])
-            ->add('gsm', TextType::class, [
-                'label' => 'Portable | Fixe'
+            ->add('gsm', TelType::class, [
+                'label' => 'Portable | Fixe',
+                'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez renseigner un numéro de téléphone.',
+                    ]),
+                ],
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'constraints' => [

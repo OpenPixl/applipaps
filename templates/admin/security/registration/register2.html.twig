@@ -18,11 +18,11 @@
             {% endfor %}
             {% include 'composants/utils/errors.html.twig' with { 'errors': registrationForm.email.vars.errors } %}
             {% include 'composants/utils/errors.html.twig' with { 'errors': registrationForm.password.vars.errors } %}
-
+            {% include 'composants/utils/errors.html.twig' with { 'errors': registrationForm.gsm.vars.errors } %}
 
             <div class="mb-2">
                 {{ form_label(registrationForm.numCollaborator, null, {'label_attr': {'class': 'block text-sm font-medium text-emerald-900', 'for': registrationForm.numCollaborator.vars.label}}) }}
-                {{ form_widget(registrationForm.numCollaborator,  {'attr': {'class': 'w-full text-sm px-2 py-1 border-emerald-700 border border-[1px] rounded text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-200', 'placeholder':'000000'}}) }}
+                {{ form_widget(registrationForm.numCollaborator,  {'attr': {'class': 'w-full text-sm px-2 py-1 border-emerald-700 border border-[1px] rounded text-emerald-900 focus:outline-none focus:ring-1 focus:ring-blue-200', 'placeholder':'000000'}}) }}
             </div>
 
             <div class="flex flex-col items-left gap-0 mb-2">

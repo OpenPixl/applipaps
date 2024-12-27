@@ -67,8 +67,13 @@
     </div>
 </div>
 
-<div id="buttons">
-    <div class="px-2 mb-1">
+<div id="buttons" class="flex flex-row gap-1 w-full px-2">
+    <div class="block w-2/4">
+        <a id="btnSupprProfil" class="block w-full bg-red-700 text-white py-1.5 px-3 text-sm text-center rounded-md hover:bg-red-600 active:bg-red-600 active:shadow-lg focus:outline-none focus:ring focus:ring-blue-300">
+            Supprimer votre compte
+        </a>
+    </div>
+    <div class="w-2/4 mb-1">
         <button
                 type="submit"
                 class="w-full bg-blue-600 text-white py-1.5 px-3 text-sm rounded-md hover:bg-blue-700 active:bg-blue-800 active:shadow-lg focus:outline-none focus:ring focus:ring-blue-300"
@@ -76,11 +81,7 @@
             {{ button_label|default('Save') }}
         </button>
     </div>
-    {{ form_end(form) }}
-    <div class="px-2 w-full">
-        <a id="btnSupprProfil" class="block w-full bg-red-700 text-white py-1.5 px-3 text-sm text-center rounded-md hover:bg-red-600 active:bg-red-600 active:shadow-lg focus:outline-none focus:ring focus:ring-blue-300">
-            Supprimer votre compte
-        </a>
-    </div>
-</div>
 
+
+</div>
+{{ form_end(form) }}
