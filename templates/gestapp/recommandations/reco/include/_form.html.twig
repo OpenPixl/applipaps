@@ -1,21 +1,28 @@
 {{ form_start(form) }}
-
-<div class="flex justify-center w-full px-2 mb-4">
-    <div class="bg-white columns-2 w-full divide-x rounded-sm shadow-sm gap-0">
-        <div class="px-2 py-2">
-            {# {{ form_label(form.typeReco, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700', 'for': form.typeReco.vars.label}}) }} #}
-            {{ form_widget(form.typeReco,  {'attr': {'class': 'w-full text-sm px-3 py-2 border rounded text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200'}}) }}
-        </div>
-        <div class="px-2 py-2">
-            {# {{ form_label(form.typeProperty, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700', 'for': form.typeProperty.vars.label}}) }} #}
-            {{ form_widget(form.typeProperty,  {'attr': {'class': 'w-full text-sm px-3 py-2 border rounded text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200'}}) }}
-        </div>
-    </div>
-</div>
 <div class="flex flex-col gap-0 px-2 py-1">
     {{ form_label(form.title, null, {'label_attr': {'class': 'block text-md font-medium text-emerald-900', 'for': form.title.vars.label}}) }}
     {{ form_widget(form.title,  {'attr': {'class': 'block w-full text-sm px-2 py-1 border border-emerald-800 rounded text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Titre de votre recommandation'}}) }}
 </div>
+<div class="flex flex-col gap-0 px-2 py-1">
+    <p class="block text-md font-medium text-emerald-900">Que proposez-vous comme</p>
+    <div class="flex flex-row gap-1 w-full">
+        <div class="w-2/4">
+            {# {{ form_label(form.typeReco, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700', 'for': form.typeReco.vars.label}}) }} #}
+            {{ form_widget(form.typeReco,  {'attr': {'class': 'text-sm px-2 py-2 border rounded text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200'}}) }}
+        </div>
+        <div class="w-2/4">
+            {# {{ form_label(form.typeProperty, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700', 'for': form.typeProperty.vars.label}}) }} #}
+            {{ form_widget(form.typeProperty,  {'attr': {'class': 'text-sm px-2 py-2 border rounded text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200'}}) }}
+        </div>
+    </div>
+
+</div>
+<div class="flex justify-center w-full px-2">
+    <div class="bg-white columns-2 w-full divide-x rounded-sm shadow-sm gap-0">
+
+    </div>
+</div>
+
 <div class="flex flex-col justify-center w-full px-2 mb-4">
     <h2 class="uppercase font-light pb-1 mb-2 border-b">Informations du potentiel recommandé</h2>
     <div class="bg-white w-full rounded shadow-sm border-emerald-700 border">
@@ -57,16 +64,17 @@
         </div>
     </div>
 </div>
-<div class="px-2">
+
+<div class="flex flex-row gap-1 px-2">
     <button
             type="submit"
-            class="w-full bg-blue-600 text-white py-1.5 px-3 mb-1 text-sm rounded-md hover:bg-blue-700 active:bg-blue-800 active:shadow-lg focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-300"
+            class="{% if app.current_route == "paps_gestapp_recos_edit" %}w-2/4{% else %}w-full{% endif%} bg-blue-600 text-white py-1.5 px-3 mb-1 text-sm rounded-md hover:bg-blue-700 active:bg-blue-800 active:shadow-lg focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-300"
     >
         Soumettre ma recommandation
     </button>
     {% if app.current_route == "paps_gestapp_recos_edit" %}
         <a
-                class="block w-full bg-red-600 text-white text-center py-1.5 px-3 text-sm rounded-md hover:bg-red-700 active:bg-red-700 active:shadow-lg focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-300"
+                class="block w-2/4 bg-red-600 text-white text-center py-1.5 px-3 text-sm rounded-md hover:bg-red-700 active:bg-red-700 active:shadow-lg focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-300"
         >
             Supprimer ma recommandation
         </a>
