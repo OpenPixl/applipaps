@@ -1,14 +1,8 @@
 // import {modal_tw} from '../../Component/tailwindComponent';
 
 const openModalWarning = document.querySelectorAll('a.openModalWarning');
-const modal_closed = document.querySelectorAll('button.modal_closed')
+const modal_closed = document.querySelectorAll('a.modal_closed')
 const modalWarning = document.getElementById('modalWarning')
-const btnSupprProfil = document.getElementById('btnSupprProfil')
-
-btnSupprProfil.addEventListener('click', function(event){
-    event.preventDefault();
-    openModal;
-})
 
 function openModal(event){
     event.preventDefault();
@@ -56,7 +50,6 @@ function reloadEvents(){
     modal_closed.forEach(function(button){
         button.addEventListener('click', closeModal);
     })
-
 }
 
 reloadEvents();
