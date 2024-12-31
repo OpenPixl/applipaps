@@ -142,7 +142,7 @@ final class EmployedController extends AbstractController
         }
     }
 
-    #[Route('/admin/security/employed/{id}', name: 'paps_admin_security_employed_delete', methods: ['POST'])]
+    #[Route('/admin/security/employed/{id}', name: 'paps_security_employed_delete', methods: ['POST'])]
     public function delete(Request $request, Employed $employed, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
