@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="fr">
+{{ include('admin/mail/include/head.html.twig') }}
+<div class="body">
+    <div class="container">
+        <div class="header text-center">
+            <a href="{{ url('op_webapp_public_homepage') }}">
+                <img src="{{ email.image('@images/png/LogoPAPSimmo.png') }}" class="logo" alt="Logo" style="height: 100px; width: auto">
+            </a>
+            <h1>[APPLIPAPs] :<br>Nouvelle proposition de recommandation de la part de : {{ user.firstName }} {{ user.lastName }}.</h1>
+        </div>
+        <div class="content">
+            <h3>{{ reco.title }}</h3>
+            <h4>Bonjour,</h4>
+            <p>
+                Un de vos utilisateurs "AppliPAPs" vient de vous envoyer une nouvelle proposition immobilière.
+            </p>
+            <table>
+                <tr>
+                    <td>Le client potentiel</td>
+                    <td>{{ reco.customerFirstName }} {{ reco.customerLastName }}<br>{{ reco.customerPhone }} | {{ reco.customerEmail }}</td>
+                </tr>
+                <tr>
+                    <td>Le biern proposé à la recommandation</td>
+                    <td>
+                        <h5>{{ reco.propertyAdress }}</h5>
+                        <p>Adresse :</p>
+                        <p>{{ reco.propertyAdress }}<br>{{ reco.propertyComplement }}<br>{{ reco.propertyZipcode }} {{ reco.propertyCity }}</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+

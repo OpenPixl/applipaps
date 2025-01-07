@@ -7,9 +7,13 @@ use App\Form\Gestapp\Recos\RecoType;
 use App\Repository\Gestapp\Recommandations\RecoRepository;
 use App\Repository\Gestapp\Recommandations\StatutRecoRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Attribute\Route;
 
 class RecoController extends AbstractController
@@ -35,7 +39,12 @@ class RecoController extends AbstractController
     }
 
     #[Route('/new', name: 'paps_gestapp_recos_new', methods: ['GET', 'POST'])]
-    public function newOnPublic(Request $request, EntityManagerInterface $entityManager, StatutRecoRepository $statutRecoRepository): Response
+    public function newOnPublic(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        MailerInterface $mailer,
+        StatutRecoRepository $statutRecoRepository
+    ): Response
     {
         $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');
         $user = $this->getUser();
@@ -68,7 +77,28 @@ class RecoController extends AbstractController
             $entityManager->persist($reco);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Un email va être envoyé au mandataire pour lui signaler votre recommandation !');
+            $email = (new TemplatedEmail())
+                ->from($user->getEmail())
+                ->to($user->getReferent())
+                //->cc('cc@example.com')
+                //->bcc('bcc@example.com')
+                //->replyTo('fabien@example.com')
+                //->priority(Email::PRIORITY_HIGH)
+                ->subject('[APPLIPAPS] : Une nouvelle recommandation vous attends dans votre espace SoftPAPs')
+                ->htmlTemplate('composants/mails/messageNewReco.html.twig')
+                ->context([
+                    'reco' => $reco,
+                    'user' => $user,
+                ]);
+            try {
+                $mailer->send($email);
+            } catch (TransportExceptionInterface $e) {
+                // some error prevented the email sending; display an
+                // error message or try to resend the message
+                dd($e);
+            }
+
+            $this->addFlash('success', 'Un email va être envoyé au mandataire pour lui signaler votre recommandation.');
 
             return $this->redirectToRoute('paps_gestapp_recos_index', [], Response::HTTP_SEE_OTHER);
         }

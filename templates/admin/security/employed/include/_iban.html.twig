@@ -8,7 +8,7 @@
         <div class="flex flex-row gap-0">
             <input id="{{ form.iban.vars.id }}" type="text" name="{{ field_name(form.iban) }}" class="block w-full text-xs px-2 py-1 border-s border-t border-b border-emerald-700 rounded-s text-gray-700 focus:outline-none focus:ring focus:ring-blue-200" value="{{ iban }}" placeholder="IBAN : FR76 xxxx xxxx xxxx">
             <div class="flex items-center px-2 py-1 text-gray-600 bg-white text-xs border-e border-t border-b rounded-e border-emerald-700">
-                <a class="openModalWarning" href="{{ path('paps_admin_security_employed_removeiban', {'id':employed.id}) }}">
+                <a class="openModalWarning" href="{{ path('paps_admin_security_employed_removeiban', {'id':employed.id}) }}" data-tw-content="DEL_IBAN">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
