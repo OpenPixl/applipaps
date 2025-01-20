@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin\Security;
 
+use App\Entity\Admin\Comm\Contact;
 use App\Entity\Admin\Security\Employed;
 use App\Form\Admin\Security\RegistrationFormType;
 use App\Form\Admin\Security\RegistrationForm2Type;
@@ -84,7 +85,6 @@ class RegistrationController extends AbstractController
                 $user->setRoles(['ROLE_PRESCRIBER']);
 
                 $entityManager->persist($user);
-                $entityManager->flush();
 
                 // generate a signed url and email it to the user
                 $this->emailVerifier->sendEmailConfirmation('paps_security_verify_email', $user,
@@ -94,6 +94,25 @@ class RegistrationController extends AbstractController
                         ->subject('Please Confirm your Email')
                         ->htmlTemplate('admin/security/registration/confirmation_email2.html.twig')
                 );
+
+                $contact = new Contact;
+                $contact->setContent('Une nouvelle inscription avec votre référence est enregistrée dans AppliPAPs.');
+                $contact->setForEmployed($user->getReferent());
+                $contact->setIsRGPD(1);
+                if($user->getHome()){
+                    $contact->setPhoneHome($user->getHome());
+                }
+                if($user->getGsm()){
+                    $contact->setPhoneGsm($user->getGsm());
+                }
+                $contact->setName('APPLIPAPS : Message ');
+                $contact->setContactBy('applipaps');
+                $contact->setEmail($user->getEmail());
+                $contact->setFromApp('applipaps');
+
+                $entityManager->persist($contact);
+                $entityManager->flush();
+
                 $this->addFlash('success', 'Votre compte est crée. Toutefois, un lien de confirmation va être envoyé à l\'adresse indiquée pour confirmation. <br>L\'inscription sera définitive après validation de votre part.');
                 // do anything else you need here, like send an email
                 return $this->redirectToRoute('paps_gestapp_app_dashboard');
