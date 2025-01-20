@@ -11,15 +11,18 @@ import axios from 'axios';
 const dropdownButton = document.getElementById("dropdown-button");
 const dropdownMenu = document.getElementById("dropdown-menu");
 
-dropdownButton.addEventListener("click", function (event) {
-    event.stopPropagation();
-    dropdownMenu.classList.toggle("hidden");
-    dropdownButton.setAttribute("aria-expanded", dropdownMenu.classList.contains("hidden") ? "false" : "true");
-});
-document.addEventListener("click", function (event) {
-    if (!dropdownMenu.contains(event.target)) {
-        dropdownMenu.classList.add("hidden");
-        dropdownButton.setAttribute("aria-expanded", "false");
-    }
-});
+if(dropdownButton !== null){
+    dropdownButton.addEventListener("click", function (event) {
+        event.stopPropagation();
+        dropdownMenu.classList.toggle("hidden");
+        dropdownButton.setAttribute("aria-expanded", dropdownMenu.classList.contains("hidden") ? "false" : "true");
+    });
+    document.addEventListener("click", function (event) {
+        if (!dropdownMenu.contains(event.target)) {
+            dropdownMenu.classList.add("hidden");
+            dropdownButton.setAttribute("aria-expanded", "false");
+        }
+    });
+}
+
 

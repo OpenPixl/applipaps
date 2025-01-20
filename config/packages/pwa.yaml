@@ -13,7 +13,7 @@ pwa:
         sizes: [512]
   serviceworker:
     enabled: true
-    src: "./sw.js"
+    src: "sw.js"
     workbox:
       cache_manifest: true
       clear_cache: true

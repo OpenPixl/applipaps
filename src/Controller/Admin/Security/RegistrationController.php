@@ -94,7 +94,7 @@ class RegistrationController extends AbstractController
                         ->subject('Please Confirm your Email')
                         ->htmlTemplate('admin/security/registration/confirmation_email2.html.twig')
                 );
-                $this->addFlash('success', 'Votre compte est crée.<br> Toutefois, un lien de confirmation va être envoyé à l\'adresse indiquée pour confirmation. <br>L\'inscription sera définitive après validation de votre part.');
+                $this->addFlash('success', 'Votre compte est crée. Toutefois, un lien de confirmation va être envoyé à l\'adresse indiquée pour confirmation. <br>L\'inscription sera définitive après validation de votre part.');
                 // do anything else you need here, like send an email
                 return $this->redirectToRoute('paps_gestapp_app_dashboard');
             }else{

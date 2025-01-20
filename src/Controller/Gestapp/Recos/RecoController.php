@@ -2,6 +2,7 @@
 
 namespace App\Controller\Gestapp\Recos;
 
+use App\Entity\Admin\Comm\Contact;
 use App\Entity\Gestapp\Recommandations\Reco;
 use App\Form\Gestapp\Recos\RecoType;
 use App\Repository\Gestapp\Recommandations\RecoRepository;
@@ -75,28 +76,47 @@ class RecoController extends AbstractController
             $reco->setAuthRGPD(0);
 
             $entityManager->persist($reco);
-            $entityManager->flush();
 
             $email = (new TemplatedEmail())
                 ->from($user->getEmail())
-                ->to($user->getReferent())
+                ->to($user->getReferent()->getEmail())
                 //->cc('cc@example.com')
                 //->bcc('bcc@example.com')
                 //->replyTo('fabien@example.com')
                 //->priority(Email::PRIORITY_HIGH)
-                ->subject('[APPLIPAPS] : Une nouvelle recommandation vous attends dans votre espace SoftPAPs')
+                ->subject('[APPLIPAPS] : Recommandation')
                 ->htmlTemplate('composants/mails/messageNewReco.html.twig')
                 ->context([
                     'reco' => $reco,
-                    'user' => $user,
+                    'user' => $user
                 ]);
             try {
                 $mailer->send($email);
+                $contact = new Contact;
+                $contact->setContent('Une nouvelle recommandation vous attend dans votre espace recommandation.');
+                $contact->setForEmployed($user->getReferent());
+                $contact->setIsRGPD(1);
+                if($user->getHome()){
+                    $contact->setPhoneHome($user->getHome());
+                }
+                if($user->getGsm()){
+                    $contact->setPhoneGsm($user->getGsm());
+                }
+                $contact->setName('APPLIPAPS : Message ');
+                $contact->setContactBy('applipaps');
+                $contact->setEmail($user->getEmail());
+                $contact->setFromApp('applipaps');
+
+                $entityManager->persist($contact);
+                $entityManager->flush();
+
             } catch (TransportExceptionInterface $e) {
                 // some error prevented the email sending; display an
                 // error message or try to resend the message
                 dd($e);
             }
+
+            $entityManager->flush();
 
             $this->addFlash('success', 'Un email va être envoyé au mandataire pour lui signaler votre recommandation.');
 
