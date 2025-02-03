@@ -63,7 +63,7 @@ final class EmployedController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         if($employed->getQrcodePwa() == null){
-            $url = $this->generateUrl('app_admin_security_employed_showqr', ['id' => $employed->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+            $url = $this->generateUrl('paps_security_register_byqr', ['id' => $employed->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
 
             $name = $qrcodeService->qrcode_share_register($url, $employed);
             $employed->setQrcodePwa($name);

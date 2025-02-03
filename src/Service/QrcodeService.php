@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Admin\Security\Employed;
+use Endroid\QrCode\Color\Color;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\ErrorCorrectionLevel;
@@ -37,6 +38,8 @@ class QrcodeService
             size: 300,
             margin: 10,
             roundBlockSizeMode: RoundBlockSizeMode::Margin,
+            foregroundColor: new Color(0, 0, 0),
+            backgroundColor: new Color(243, 244, 246, ),
             //logoPath: __DIR__.'/assets/symfony.png',
             //logoResizeToWidth: 50,
             //logoPunchoutBackground: true,
