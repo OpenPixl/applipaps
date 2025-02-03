@@ -84,7 +84,7 @@ class RecoType extends AbstractType
                 ],
             ])
             ->add('isAuthCustomer', CheckboxType::class, [
-                'label' => 'Je déclare avoir eu le consentement du client prospect fin de communiquer ses coordonnées dans le cadre de son projet immobilier'
+                'label' => 'En validant la case, je déclare avoir eu le consentement du client prospect fin de communiquer ses coordonnées dans le cadre de son projet immobilier'
             ])
         ;
     }

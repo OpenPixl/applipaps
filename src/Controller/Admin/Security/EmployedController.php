@@ -78,7 +78,8 @@ final class EmployedController extends AbstractController
     #[Route('/app/prescriptor/{id}/edit', name: 'paps_security_employed_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Employed $employed, EntityManagerInterface $entityManager, SluggerInterface $slugger, EncryptionService $encryptionService): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');        $form = $this->createForm(EmployedType::class, $employed);
+        $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');
+        $form = $this->createForm(EmployedType::class, $employed);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -134,7 +135,9 @@ final class EmployedController extends AbstractController
             }
 
             $iban = $form->get('iban')->getData();
-            $employed->setIban($iban, $encryptionService);
+            $ibanEncrypted = $encryptionService->encrypt($iban);
+
+            $employed->setIban($ibanEncrypted);
 
             $entityManager->flush();
 
@@ -144,11 +147,10 @@ final class EmployedController extends AbstractController
                 'id' => $employed->getId(),
             ], Response::HTTP_SEE_OTHER);
         }
-
-        $iban = $employed->getIban();
-
-        if ($iban) {
-            $iban = $this->maskRib($employed->getIban());
+        
+        if($employed->getIban()) {
+            $iban = $encryptionService->decrypt($employed->getIban());
+            $iban = $this->maskRib($iban);
             return $this->render('admin/security/employed/edit.html.twig', [
                 'employed' => $employed,
                 'form' => $form,
