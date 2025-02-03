@@ -61,6 +61,15 @@
     </div>
 </div>
 
+<div class="flex flex-col justify-center w-full px-2 mb-4">
+    <div></div>
+    <div class="flex items-center mb-4">
+        {{ form_widget(form.isAuthCustomer,  {'attr': {'class': 'w-4 h-4 text-sm border-emerald-700 border focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Complément'}}) }}
+        {{ form_label(form.isAuthCustomer, null, {'label_attr': {'class': 'ms-4 text-sm text-gray-700', 'for': form.isAuthCustomer.vars.label}}) }}
+
+    </div>
+</div>
+
 <div class="flex flex-row gap-1 px-2">
     {% if app.current_route == "paps_gestapp_recos_edit" %}
         <a

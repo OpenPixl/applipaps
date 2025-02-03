@@ -5,9 +5,12 @@ namespace App\Form\Gestapp\Recos;
 use App\Entity\Admin\Security\Employed;
 use App\Entity\Gestapp\Recommandations\StatutReco;
 use App\Entity\Gestapp\Recommandations\Reco;
+use Doctrine\DBAL\Types\BooleanType;
 use Doctrine\ORM\EntityRepository;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -79,6 +82,9 @@ class RecoType extends AbstractType
                     'Mettre en location' => ['data-data' => 'Mettre en location'],
                     'Devenir Acquéreur' => ['data-data' => 'Customize Toolbar…']
                 ],
+            ])
+            ->add('isAuthCustomer', CheckboxType::class, [
+                'label' => 'Je déclare avoir eu le consentement du client prospect fin de communiquer ses coordonnées dans le cadre de son projet immobilier'
             ])
         ;
     }

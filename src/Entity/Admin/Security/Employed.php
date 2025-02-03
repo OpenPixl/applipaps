@@ -178,6 +178,9 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $agreeTerms = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $qrcode_pwa = null;
+
     public function __construct()
     {
         $this->Customer = new ArrayCollection();
@@ -1077,6 +1080,18 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getQrcodePwa(): ?string
+    {
+        return $this->qrcode_pwa;
+    }
+
+    public function setQrcodePwa(string $qrcode_pwa): static
+    {
+        $this->qrcode_pwa = $qrcode_pwa;
 
         return $this;
     }

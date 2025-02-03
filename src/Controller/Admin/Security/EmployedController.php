@@ -6,12 +6,14 @@ use App\Entity\Admin\Security\Employed;
 use App\Form\Admin\Security\EmployedType;
 use App\Repository\Admin\Security\EmployedRepository;
 use App\Service\EncryptionService;
+use App\Service\QrcodeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 final class EmployedController extends AbstractController
@@ -51,6 +53,24 @@ final class EmployedController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('admin/security/employed/show.html.twig', [
+            'employed' => $employed,
+        ]);
+    }
+
+    #[Route('/admin/security/employed/{id}/qr', name: 'app_admin_security_employed_showqr', methods: ['GET'])]
+    public function showqr(Employed $employed, QrcodeService $qrcodeService, EntityManagerInterface $em): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        if($employed->getQrcodePwa() == null){
+            $url = $this->generateUrl('app_admin_security_employed_showqr', ['id' => $employed->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+
+            $name = $qrcodeService->qrcode_share_register($url, $employed);
+            $employed->setQrcodePwa($name);
+            $em->flush();
+        }
+
+        return $this->render('admin/security/employed/show_qr.html.twig', [
             'employed' => $employed,
         ]);
     }

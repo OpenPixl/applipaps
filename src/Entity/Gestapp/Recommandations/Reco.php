@@ -639,24 +639,24 @@ class Reco
         return $this;
     }
 
-    public function isAuthRGPD(): ?bool
+    public function isIsAuthRGPD(): ?bool
     {
         return $this->isAuthRGPD;
     }
 
-    public function setAuthRGPD(bool $isAuthRGPD): static
+    public function setIsAuthRGPD(bool $isAuthRGPD): static
     {
         $this->isAuthRGPD = $isAuthRGPD;
 
         return $this;
     }
 
-    public function isAuthCustomer(): ?bool
+    public function isIsAuthCustomer(): ?bool
     {
         return $this->isAuthCustomer;
     }
 
-    public function setAuthCustomer(bool $isAuthCustomer): static
+    public function setIsAuthCustomer(bool $isAuthCustomer): static
     {
         $this->isAuthCustomer = $isAuthCustomer;
 

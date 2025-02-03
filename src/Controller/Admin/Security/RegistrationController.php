@@ -129,6 +129,84 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    #[Route('/security/register/byqr/{idEmployed}', name: 'paps_security_register_byqr')]
+    public function registerByQr(
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        EntityManagerInterface $entityManager,
+        EmployedRepository $employedRepository,
+        $idEmployed
+    ): Response
+    {
+        $collaborateur = $employedRepository->findOneBy(['id'=> $idEmployed]);
+        $user = new Employed();
+
+        $form = $this->createForm(RegistrationForm2Type::class, $user);
+        $form->handleRequest($request);
+
+        $form->get('numCollaborator')->setData($collaborateur->getNumCollaborator());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $code = $form->get('numCollaborator')->getData();
+
+            //dd($collaborateur);
+            if($collaborateur){
+                // encode the plain password
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('password')->getData()
+                    )
+                );
+                $user->setReferent($collaborateur);
+                $user->setGenre('prescripteur');
+                $user->setRoles(['ROLE_PRESCRIBER']);
+
+                $entityManager->persist($user);
+
+                // generate a signed url and email it to the user
+                $this->emailVerifier->sendEmailConfirmation('paps_security_verify_email', $user,
+                    (new TemplatedEmail())
+                        ->from(new Address('contact@papsimmo40.fr', 'Contact Paps Immo 40'))
+                        ->to($user->getEmail())
+                        ->subject('Please Confirm your Email')
+                        ->htmlTemplate('admin/security/registration/confirmation_email2.html.twig')
+                );
+
+                $contact = new Contact;
+                $contact->setContent('Une nouvelle inscription avec votre référence est enregistrée dans AppliPAPs.');
+                $contact->setForEmployed($user->getReferent());
+                $contact->setIsRGPD(1);
+                if($user->getHome()){
+                    $contact->setPhoneHome($user->getHome());
+                }
+                if($user->getGsm()){
+                    $contact->setPhoneGsm($user->getGsm());
+                }
+                $contact->setName('APPLIPAPS : Message ');
+                $contact->setContactBy('applipaps');
+                $contact->setEmail($user->getEmail());
+                $contact->setFromApp('applipaps');
+
+                $entityManager->persist($contact);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Votre compte est crée. Toutefois, un lien de confirmation va être envoyé à l\'adresse indiquée pour confirmation. <br>L\'inscription sera définitive après validation de votre part.');
+                // do anything else you need here, like send an email
+                return $this->redirectToRoute('paps_gestapp_app_dashboard');
+            }else{
+
+                return $this->render('admin/security/registration/register2.html.twig', [
+                    'registrationForm' => $form->createView(),
+                ]);
+            }
+        }
+
+        return $this->render('admin/security/registration/register2.html.twig', [
+            'registrationForm' => $form->createView(),
+        ]);
+    }
+
     #[Route('/verify/email', name: 'paps_security_verify_email')]
     public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
     {
