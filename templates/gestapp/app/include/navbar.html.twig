@@ -32,6 +32,7 @@
                             </div>
                         </div>
                     </a>
+                    {% if is_granted('ROLE_EMPLOYED') %}
                     <a href="{{ path('app_admin_security_employed_showqr', {'id': app.user.id}) }}" class="block px-4 py-2 text-right text-sm  hover:bg-gray-200 focus:bg-gray-200" role="menuitem">
                         <div class="flex items-center justify-between">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6">
@@ -42,6 +43,7 @@
                             </div>
                         </div>
                     </a>
+                    {% endif %}
                     <a href="{{ path('paps_admin_security_logout') }}" class="block px-4 py-2 text-right text-sm  hover:bg-gray-200 focus:bg-gray-200" role="menuitem">
                         <div class="flex items-center justify-between">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
