@@ -31,12 +31,14 @@ class RegistrationForm2Type extends AbstractType
                     'M.' => 1,
                     "Mme" => 2,
                 ],
+                'empty_data' => 1,
                 'expanded' => true,
                 'multiple' => false
             ])
             ->add('firstName', TextType::class, [
                 'label' => 'Nom & prénom'
             ])
+            ->add('maidenName')
             ->add('lastName')
             ->add('numCollaborator', TextType::class, [
                 'label' => 'Code du Mandataire',

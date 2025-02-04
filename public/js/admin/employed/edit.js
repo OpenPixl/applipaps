@@ -3,6 +3,24 @@
 const openModalWarning = document.querySelectorAll('a.openModalWarning');
 const modal_closed = document.querySelectorAll('a.modal_closed')
 const modalWarning = document.getElementById('modalWarning')
+const EmployedMaidenname = document.getElementById('employed_maidenName')
+const civility = document.querySelectorAll('input[name="employed[civility]"]');
+
+// -- visuel sur le nom de jeune fille --
+let valcivility = document.querySelector('input[name=employed\\[civility\\]]:checked').value;
+if (valcivility > 1){
+    EmployedMaidenname.classList.remove('hidden');
+}
+const radioButtonsCivility = document.querySelectorAll('input[name=employed\\[civility\\]]');
+radioButtonsCivility.forEach(function(radio) {
+    radio.addEventListener("change", function() {
+        if (parseInt(this.value) === 2) {
+            EmployedMaidenname.classList.remove('hidden');
+        } else if (parseInt(this.value) === 1){
+            EmployedMaidenname.classList.add('hidden');
+        }
+    });
+});
 
 function openModal(event){
     event.preventDefault();

@@ -2,12 +2,17 @@
 
 {% block title %}Création de compte | PAP's immo{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module" src="{{ asset('js/admin/registration/new-edit.js') }}"></script>
+{% endblock %}
+
 {% block navbar %}{% endblock %}
 
 {% block content %}
     <div class="h-screen flex flex-col items-center justify-center px-2">
         <div class="w-full max-w-sm text-center mb-6">
-            <img src="{{ asset('images/png/LogoPAPSimmo.png') }}" alt="Logo PAPS Immo" class="mx-auto w-100 h-100">
+            <img src="{{ asset('images/png/LogoPAPSimmo.png') }}" alt="Logo PAPS Immo" class="mx-auto h-32">
         </div>
         {{ form_start(registrationForm) }}
         <div class="w-full max-w-sm bg-white p-4 rounded-lg shadow-md">
@@ -31,12 +36,13 @@
                 <div class="flex flex-row justify-start px-2 border-x border-t rounded-t">
                     {% for label, value, choice in field_choices(registrationForm.civility) %}
                         <div class="mb-[0.125rem] me-4 inline-block min-h-[1.5rem]">
-                            <input class="h-3 w-3 text-blue-600 border-gray-300 rounded focus:ring-blue-500" type="radio" name="{{ field_name(registrationForm.civility) }}" id="inlineRadio1" value="">
-                            <label class="ml-2 text-sm text-gray-700" for="inlineRadio1">{{ label }}</label>
+                            <input class="h-3 w-3 text-blue-600 border-gray-300 rounded focus:ring-blue-500" type="radio" name="{{ field_name(registrationForm.civility) }}" id="{{ registrationForm.civility.vars.id }}-{{ value }}" value="{{ value }}" {% if value == 1 %}checked="checked"{% endif %}>
+                            <label class="ml-2 text-sm text-gray-700" for="{{ registrationForm.civility.vars.id }}-{{ value }}">{{ label }}</label>
                         </div>
                     {% endfor %}
                 </div>
                 {{ form_widget(registrationForm.firstName,  {'attr': {'class': 'block w-full text-sm px-2 py-1 border-x border-t text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-200 focus:z-10', 'placeholder':'Prénom'}}) }}
+                {{ form_widget(registrationForm.maidenName,  {'attr': {'class': 'hidden block w-full text-sm px-2 py-1 border-t border-x text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Nom d\'usage'}}) }}
                 {{ form_widget(registrationForm.lastName,  {'attr': {'class': 'block w-full text-sm px-2 py-1 border rounded-b text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-200', 'placeholder':'Nom'}}) }}
             </div>
             <div class="mb-2">

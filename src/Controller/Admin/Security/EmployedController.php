@@ -86,8 +86,6 @@ final class EmployedController extends AbstractController
             // ajout de la carte d'identité
             $ci = $form->get('ciFile')->getData();
             $ciFilename = $employed->getCiFileName();
-            // Créer un alias
-
             if($ci) {
                 if ($ciFilename) {
                     $pathheader = $this->getParameter('prescriptors_directory') . '/' . $ciFilename;
@@ -135,9 +133,10 @@ final class EmployedController extends AbstractController
             }
 
             $iban = $form->get('iban')->getData();
-            $ibanEncrypted = $encryptionService->encrypt($iban);
-
-            $employed->setIban($ibanEncrypted);
+            if($iban !== null) {
+                $ibanEncrypted = $encryptionService->encrypt($iban);
+                $employed->setIban($ibanEncrypted);
+            }
 
             $entityManager->flush();
 

@@ -62,7 +62,33 @@
 </div>
 
 <div class="flex flex-col justify-center w-full px-2 mb-4">
-    <div></div>
+    <div x-data="accordion(1)" class="relative transition-all duration-700 border rounded-xl hover:shadow-2xl">
+        <div @click="handleClick()" class="w-full p-4 text-left cursor-pointer">
+            <div class="flex items-center justify-between">
+                <span class="tracking-wide">What is x-data ?</span>
+                <span :class="handleRotate()" class="transition-transform duration-500 transform fill-current ">
+                <svg class="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
+                </span>
+            </div>
+        </div>
+
+        <div x-ref="tab" :style="handleToggle()" class="relative overflow-hidden transition-all duration-700 max-h-0">
+            <div class="px-6 pb-4 text-gray-600">
+                Declare a new Alpine component and its data for a block of HTML </div>
+        </div>
+    </div>
+    <div>
+        <p>
+            <a href="">collapse</a>
+        </p>
+        <p class="text-sm">
+            Les personnes dont vous collectez les informations disposent d'un droit d'accès aux informations contenues dans cette recommandation.
+            Les informations que vous y inscrivez doivent être pertinentes au regard du contexte.
+            Elles ne doivent pas comporter d'appréciation subjectives, ni faire apparaître, directement ou indirectement, des données de santé, d'origines raciales, d'opinions politiques, philosophiques ou religieuses, d'appartenance syndicale ou les moeurs de la personne concernées.
+        </p>
+    </div>
     <div class="flex items-center mb-4">
         {{ form_widget(form.isAuthCustomer,  {'attr': {'class': 'w-4 h-4 text-sm border-emerald-700 border focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Complément'}}) }}
         {{ form_label(form.isAuthCustomer, null, {'label_attr': {'class': 'ms-4 text-sm text-gray-700', 'for': form.isAuthCustomer.vars.label}}) }}

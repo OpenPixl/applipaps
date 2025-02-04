@@ -13,7 +13,6 @@ if (valcivility > 1){
     customerMaidenname.classList.remove('hidden');
 }
 const radioButtonsCivility = document.querySelectorAll('input[name=reco\\[customerCivility\\]]');
-console.log(radioButtonsCivility);
 radioButtonsCivility.forEach(function(radio) {
     radio.addEventListener("change", function() {
         if (parseInt(this.value) === 2) {

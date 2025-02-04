@@ -68,8 +68,11 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationForm2Type::class, $user);
         $form->handleRequest($request);
 
+        $form->get('civility')->setData(1);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $code = $form->get('numCollaborator')->getData();
+
             $collaborateur = $employedRepository->findOneBy(['numCollaborator'=> $code]);
             //dd($collaborateur);
             if($collaborateur){

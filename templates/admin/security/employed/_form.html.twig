@@ -48,7 +48,7 @@
                 <div class="flex flex-row justify-start px-2 border-x border-t rounded-t">
                     {% for label, value, choice in field_choices(form.civility) %}
                         <div class="mb-[0.125rem] me-4 inline-block min-h-[1.5rem]">
-                            <input class="h-3 w-3 text-blue-600 border-gray-300 rounded focus:ring-blue-500" type="radio" name="{{ field_name(form.civility) }}" id="inlineRadio1" value="{{ value }}" {% if value is same as employed.civility %}checked="checked"{% endif %}>
+                            <input class="h-3 w-3 text-blue-600 border-gray-300 rounded focus:ring-blue-500" type="radio" name="{{ field_name(form.civility) }}" id="{{ form.firstName.vars.id }}-{{ value }}" value="{{ value }}" {% if value is same as employed.civility %}checked="checked"{% endif %}>
                             <label class="ml-2 text-sm text-gray-700" for="inlineRadio1">{{ label }}</label>
                         </div>
                     {% endfor %}
