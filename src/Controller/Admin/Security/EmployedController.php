@@ -147,7 +147,7 @@ final class EmployedController extends AbstractController
                 'id' => $employed->getId(),
             ], Response::HTTP_SEE_OTHER);
         }
-        
+
         if($employed->getIban()) {
             $iban = $encryptionService->decrypt($employed->getIban());
             $iban = $this->maskRib($iban);
