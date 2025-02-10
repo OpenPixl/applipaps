@@ -60,7 +60,7 @@ final class EmployedController extends AbstractController
     #[Route('/admin/security/employed/{id}/qr', name: 'app_admin_security_employed_showqr', methods: ['GET'])]
     public function showqr(Employed $employed, QrcodeService $qrcodeService, EntityManagerInterface $em): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->denyAccessUnlessGranted('ROLE_EMPLOYED');
 
         if($employed->getQrcodePwa() == null){
             $url = $this->generateUrl('paps_security_register_byqr', ['idEmployed' => $employed->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
