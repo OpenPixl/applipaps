@@ -56,7 +56,7 @@ class RegistrationForm2Type extends AbstractType
             ->add('agreeTerms', CheckboxType::class, [
                 'constraints' => [
                     new IsTrue([
-                        'message' => "<P>En cochant cette case, vous acceptez que PAPs immo collecte et traite vos données personnelles conformément à notre <a href=\"chemin_vers_la_page\">Politique de Confidentialité</a>. Vous disposez de droits d'accès, de rectification et de suppression de vos données, que vous pouvez exercer à tout moment..</p>",
+                        'message' => "<P>En cochant cette case, vous acceptez que PAPs immo collecte et traite vos données personnelles conformément à notre <a href=\"chemin_vers_la_page\">Politique de Confidentialité</a>. Vous disposez de droits d'accès, de rectification et de suppression de vos données, que vous pouvez exercer à tout moment.</p>",
                     ]),
                 ],
             ])

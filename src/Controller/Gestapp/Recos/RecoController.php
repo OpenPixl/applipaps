@@ -50,6 +50,7 @@ class RecoController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');
         $user = $this->getUser();
         $startReco = $statutRecoRepository->findOneBy(['id' => 1 ]);
+        $date =  new \DateTime();
 
         $reco = new Reco();
         $reco->setRefPrescripteur($user);
@@ -59,6 +60,7 @@ class RecoController extends AbstractController
         $reco->setAnnounceLastName($user->getLastName());
         $reco->setAnnounceEmail($user->getEmail());
         $reco->setAnnouncePhone($user->getGsm());
+        $reco->setTitle('Nouvelle recommandation du '. $date->format('d/m/Y'));
         $form = $this->createForm(RecoType::class, $reco, [
             'action' => $this->generateUrl('paps_gestapp_recos_new') ,
             'method' => 'POST',
@@ -72,8 +74,7 @@ class RecoController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $reco->setOpenRecoAt(new \DateTime('now'));
-            $reco->setAuthCustomer(0);
-            $reco->setAuthRGPD(0);
+            $reco->setIsAuthRGPD(1);
 
             $entityManager->persist($reco);
 

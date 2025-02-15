@@ -65,10 +65,9 @@ class RegistrationController extends AbstractController
     public function registerPrescriber(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, EmployedRepository $employedRepository): Response
     {
         $user = new Employed();
+        $user -> setCivility(1);
         $form = $this->createForm(RegistrationForm2Type::class, $user);
         $form->handleRequest($request);
-
-        $form->get('civility')->setData(1);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $code = $form->get('numCollaborator')->getData();
@@ -116,7 +115,7 @@ class RegistrationController extends AbstractController
                 $entityManager->persist($contact);
                 $entityManager->flush();
 
-                $this->addFlash('success', 'Votre compte est crée. Toutefois, un lien de confirmation va être envoyé à l\'adresse indiquée pour confirmation. <br>L\'inscription sera définitive après validation de votre part.');
+                $this->addFlash('success', 'Votre compte est crée. Toutefois, un lien de confirmation va être envoyé à votre e-mail pour validation.');
                 // do anything else you need here, like send an email
                 return $this->redirectToRoute('paps_gestapp_app_dashboard');
             }else{
