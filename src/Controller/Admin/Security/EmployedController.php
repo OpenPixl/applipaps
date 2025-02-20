@@ -118,9 +118,9 @@ final class EmployedController extends AbstractController
 
                 $token = $encryptionService->getToken($user);
                 if(!$port){
-                    $url = $scheme.'://'.$host.'/opadmin/employed/ciTransfertApp/'.$newFilename;
+                    $url = $scheme.'://papsimmo.openpixl.fr/opadmin/employed/ciTransfertApp/'.$newFilename;
                 }else{
-                    $url = $scheme.'://'.$host.':'.$port.'/opadmin/employed/ciTransfertApp/'.$newFilename;
+                    $url = $scheme.'://papsimmo.openpixl.fr:'.$port.'/opadmin/employed/ciTransfertApp/'.$newFilename;
                 }
 
                 try {
