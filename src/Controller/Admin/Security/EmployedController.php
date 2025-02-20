@@ -117,10 +117,11 @@ final class EmployedController extends AbstractController
                 $token = $encryptionService->getToken($user);
 
                 $url = 'https://applipaps.openpixl.fr/prescriptors/'.$newFilename;
-                $cible = 'https://papsimmo.openpixl.fr/opadmin/employed/imageTransfertApp/' . urlencode($url);
+                $cible = 'https://papsimmo.openpixl.fr/opadmin/employed/ciTransfertApp/';
 
                 try {
-                    $response = $this->httpClient->request('GET', $cible, [
+                    $response = $this->httpClient->request('POST', $cible, [
+                        'url' =>$url,
                         'headers' => [
                             'Authorization' => 'Bearer ' . $token,
                             'Accept' => 'application/json',
@@ -129,7 +130,7 @@ final class EmployedController extends AbstractController
 
                     $data = $response->toArray();
                 } catch (\Exception $e) {
-                    return $this->json(['error' => 'Erreur API : ' . $e->getMessage()], 500);
+                    return $this->json(['error' => 'Erreur : ' . $e->getMessage()], 500);
                 }
 
             }
