@@ -15,9 +15,14 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class EmployedController extends AbstractController
 {
+    public function __construct(
+        private HttpClientInterface $httpClient
+    ){}
+
     #[Route('/admin/security/employed/index', name: 'app_admin_security_employed_index', methods: ['GET'])]
     public function index(EmployedRepository $employedRepository): Response
     {
@@ -78,6 +83,7 @@ final class EmployedController extends AbstractController
     #[Route('/app/prescriptor/{id}/edit', name: 'paps_security_employed_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Employed $employed, EntityManagerInterface $entityManager, SluggerInterface $slugger, EncryptionService $encryptionService): Response
     {
+
         $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');
         $form = $this->createForm(EmployedType::class, $employed);
         $form->handleRequest($request);
@@ -106,6 +112,26 @@ final class EmployedController extends AbstractController
                     // ... handle exception if something happens during file upload
                 }
                 $employed->setCiFileName($newFilename);
+
+                $user = $this->getUser();
+                $token = $encryptionService->getToken($user);
+
+                $url = 'https://applipaps.openpixl.fr/prescriptors/'.$newFilename;
+                $cible = 'https://papsimmo.openpixl.fr/opadmin/employed/imageTransfertApp/' . urlencode($url);
+
+                try {
+                    $response = $this->httpClient->request('GET', $cible, [
+                        'headers' => [
+                            'Authorization' => 'Bearer ' . $token,
+                            'Accept' => 'application/json',
+                        ],
+                    ]);
+
+                    $data = $response->toArray();
+                } catch (\Exception $e) {
+                    return $this->json(['error' => 'Erreur API : ' . $e->getMessage()], 500);
+                }
+
             }
 
             $avatar = $form->get('avatarFile')->getData();
@@ -130,6 +156,9 @@ final class EmployedController extends AbstractController
                     // ... handle exception if something happens during file upload
                 }
                 $employed->setAvatarName($newFilename);
+
+                $user = $this->getUser();
+                $token = $encryptionService->getToken($user);
             }
 
             $iban = $form->get('iban')->getData();
@@ -178,7 +207,8 @@ final class EmployedController extends AbstractController
     #[Route('/app/prescriptor/{id}/removeci', name: 'paps_admin_security_employed_removeci', methods: ['POST'])]
     public function removeCi(Request $request, Employed $employed, EntityManagerInterface $em): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');        $ciFilename = $employed->getCiFileName();
+        $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');
+        $ciFilename = $employed->getCiFileName();
         if ($ciFilename) {
             $path = $this->getParameter('prescriptors_directory') . '/' . $ciFilename;
             // On vérifie si l'image existe

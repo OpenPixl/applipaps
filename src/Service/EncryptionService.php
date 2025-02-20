@@ -2,14 +2,14 @@
 
 namespace App\Service;
 
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+
 class EncryptionService
 {
-    private string $encryptionKey;
-
-    public function __construct(string $encryptionKey)
-    {
-        $this->encryptionKey = $encryptionKey;
-    }
+    public function __construct(
+        public string $encryptionKey,
+        private HttpClientInterface $httpClient,
+    ){}
 
     public function encrypt(string $iban): string
     {
@@ -27,5 +27,17 @@ class EncryptionService
         $ciphertext = substr($data, 16);
 
         return openssl_decrypt($ciphertext, 'aes-256-cbc', $this->encryptionKey, OPENSSL_RAW_DATA, $iv);
+    }
+
+    public function getToken($user){
+        $numCollaborator = $user->getNumcollaborator();
+        $response = $this->httpClient->request('GET', 'http://127.0.0.1:8001/api/authentication_token/'.$numCollaborator.'/getToken');
+        if ($response->getStatusCode() === 200) {
+            $data = $response->toArray();
+            $token = $data['token'];
+            return $token;
+        }
+
+        throw new \Exception('Failed to retrieve token.');
     }
 }
