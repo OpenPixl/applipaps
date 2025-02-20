@@ -27,6 +27,7 @@ function openModal(event){
     let url = this.href;
     let opt = this.getAttribute('data-tw-content');
     let crud = opt.split('-')[0];
+    console.log(crud);
     document.getElementById('modalWarning').style.display = 'block'
     document.getElementsByTagName('body')[0].classList.add('overflow-y-hidden')
     if(crud === 'NEW_MESS'){
@@ -45,14 +46,26 @@ function openModal(event){
                 console.log(error)
             });
         reloadEvents();
-    }else if(crud === "DEL"){
-        modalWarning.querySelector('#modal_body #modal_body_title').innerHTML = ''
+    }else if(crud === "DEL_AVATAR"){
+        modalWarning.querySelector('#modal_body #modal_body_title').innerHTML = 'Suppression de l\'avatar';
         modalWarning.querySelector('#modal_body #modal_body_icon').innerHTML =
             '<svg class="w-10 h-10 text-amber-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"\n' +
             'xmlns="http://www.w3.org/2000/svg">\n' +
             '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"\n' +
             'd="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>\n' +
-            '</svg>'
+            '</svg>';
+        modalWarning.querySelector('#modal_body #modal_body_text').innerHTML = '<h3 class="text-sm font-normal text-gray-500">Vous êtes sur le point de supprimer votre photo. Etes-vous sûr ?</h3>';
+        modalWarning.querySelector('#modal_footer .validModal').href = url;
+        modalWarning.querySelector('#modal_footer .validModal').addEventListener('click', validModal);
+        reloadEvents();
+    }else if(crud === "DEL_CI"){
+        modalWarning.querySelector('#modal_body #modal_body_title').innerHTML = 'Suppression de la pièce d\'identité';
+        modalWarning.querySelector('#modal_body #modal_body_icon').innerHTML =
+            '<svg class="w-10 h-10 text-amber-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"\n' +
+            'xmlns="http://www.w3.org/2000/svg">\n' +
+            '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"\n' +
+            'd="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>\n' +
+            '</svg>';
         modalWarning.querySelector('#modal_body #modal_body_text').innerHTML = '<h3 class="text-sm font-normal text-gray-500">Vous êtes sur le point de supprimer le document. Etes-vous sûr ?</h3>';
         modalWarning.querySelector('#modal_footer .validModal').href = url;
         modalWarning.querySelector('#modal_footer .validModal').addEventListener('click', validModal);

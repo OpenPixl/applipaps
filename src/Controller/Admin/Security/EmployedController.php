@@ -6,6 +6,7 @@ use App\Entity\Admin\Security\Employed;
 use App\Form\Admin\Security\EmployedType;
 use App\Repository\Admin\Security\EmployedRepository;
 use App\Service\EncryptionService;
+use App\Service\pathService;
 use App\Service\QrcodeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -81,12 +82,16 @@ final class EmployedController extends AbstractController
     }
 
     #[Route('/app/prescriptor/{id}/edit', name: 'paps_security_employed_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Employed $employed, EntityManagerInterface $entityManager, SluggerInterface $slugger, EncryptionService $encryptionService): Response
+    public function edit(Request $request, Employed $employed, EntityManagerInterface $entityManager, SluggerInterface $slugger, EncryptionService $encryptionService, pathService $pathService): Response
     {
-
+        $user = $this->getUser();
         $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');
         $form = $this->createForm(EmployedType::class, $employed);
         $form->handleRequest($request);
+
+        $scheme = $pathService->getScheme();
+        $port = $pathService->getPort();
+        $host = $pathService->getHost();
 
         if ($form->isSubmitted() && $form->isValid()) {
             // ajout de la carte d'identité
@@ -94,18 +99,16 @@ final class EmployedController extends AbstractController
             $ciFilename = $employed->getCiFileName();
             if($ci) {
                 if ($ciFilename) {
-                    $pathheader = $this->getParameter('prescriptors_directory') . '/' . $ciFilename;
+                    $pathheader = $this->getParameter('prescriptors_directory').'/'. $employed->getSlug(). '/' . $ciFilename;
                     // On vérifie si l'image existe
                     if (file_exists($pathheader)) {
                         unlink($pathheader);
                     }
                 }
-                $originalFilename = pathinfo($ci->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '.' . $ci->guessExtension();
+                $newFilename = 'ci-'. $user->getSlug() . '.' . $ci->guessExtension();
                 try {
                     $ci->move(
-                        $this->getParameter('prescriptors_directory'),
+                        $this->getParameter('prescriptors_directory').'/'. $employed->getSlug(),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -113,15 +116,15 @@ final class EmployedController extends AbstractController
                 }
                 $employed->setCiFileName($newFilename);
 
-                $user = $this->getUser();
                 $token = $encryptionService->getToken($user);
-
-                $url = 'https://applipaps.openpixl.fr/prescriptors/'.$newFilename;
-                $cible = 'https://papsimmo.openpixl.fr/opadmin/employed/ciTransfertApp/';
+                if(!$port){
+                    $url = $scheme.'://'.$host.'/opadmin/employed/ciTransfertApp/'.$newFilename;
+                }else{
+                    $url = $scheme.'://'.$host.':'.$port.'/opadmin/employed/ciTransfertApp/'.$newFilename;
+                }
 
                 try {
-                    $response = $this->httpClient->request('POST', $cible, [
-                        'url' =>$url,
+                    $response = $this->httpClient->request('GET', $url, [
                         'headers' => [
                             'Authorization' => 'Bearer ' . $token,
                             'Accept' => 'application/json',
@@ -139,7 +142,7 @@ final class EmployedController extends AbstractController
             $avatarFilename = $employed->getAvatarName();
             if($avatar) {
                 if ($avatarFilename) {
-                    $pathheader = $this->getParameter('prescriptors_directory') . '/' . $avatarFilename;
+                    $pathheader = $this->getParameter('prescriptors_directory') .'/'. $employed->getSlug().  '/' . $avatarFilename;
                     // On vérifie si l'image existe
                     if (file_exists($pathheader)) {
                         unlink($pathheader);
@@ -147,10 +150,10 @@ final class EmployedController extends AbstractController
                 }
                 $originalFilename = pathinfo($avatar->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '.' . $avatar->guessExtension();
+                $newFilename = 'avatar-'.$user->getSlug().'.'.$avatar->guessExtension();
                 try {
                     $avatar->move(
-                        $this->getParameter('prescriptors_directory'),
+                        $this->getParameter('prescriptors_directory').'/'. $employed->getSlug(),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -160,6 +163,25 @@ final class EmployedController extends AbstractController
 
                 $user = $this->getUser();
                 $token = $encryptionService->getToken($user);
+
+                if(!$port){
+                    $url = $scheme.'://'.$host.'/opadmin/employed/avatarTransfertApp/'.$newFilename;
+                }else{
+                    $url = $scheme.'://'.$host.':'.$port.'/opadmin/employed/avatarTransfertApp/'.$newFilename;
+                }
+
+                try {
+                    $response = $this->httpClient->request('GET', $url, [
+                        'headers' => [
+                            'Authorization' => 'Bearer ' . $token,
+                            'Accept' => 'application/json',
+                        ],
+                    ]);
+
+                    $data = $response->toArray();
+                } catch (\Exception $e) {
+                    return $this->json(['error' => 'Erreur : ' . $e->getMessage()], 500);
+                }
             }
 
             $iban = $form->get('iban')->getData();
@@ -206,12 +228,12 @@ final class EmployedController extends AbstractController
     }
 
     #[Route('/app/prescriptor/{id}/removeci', name: 'paps_admin_security_employed_removeci', methods: ['POST'])]
-    public function removeCi(Request $request, Employed $employed, EntityManagerInterface $em): Response
+    public function removeCi(Request $request, Employed $employed,EncryptionService $encryptionService, EntityManagerInterface $em, pathService $pathService): Response
     {
         $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');
         $ciFilename = $employed->getCiFileName();
         if ($ciFilename) {
-            $path = $this->getParameter('prescriptors_directory') . '/' . $ciFilename;
+            $path = $this->getParameter('prescriptors_directory').'/'.$employed->getSlug().'/'. $ciFilename;
             // On vérifie si l'image existe
             if (file_exists($path)) {
                 unlink($path);
@@ -223,6 +245,12 @@ final class EmployedController extends AbstractController
 
         $employed->setCiFileName(null);
         $em->flush();
+
+        $token = $encryptionService->getToken($employed);
+        $scheme = $pathService->getScheme();
+        $port = $pathService->getPort();
+        $host = $pathService->getHost();
+        dd($scheme, $port, $host);
 
         $viewForm = $this->createForm(EmployedType::class, $employed);
 

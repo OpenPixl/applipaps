@@ -26,7 +26,7 @@
                         </div>
                     {% else %}
                         <div>
-                            <img src="{{ asset('prescriptors/'~app.user.avatarName) }}" alt="{{ app.user.avatarName }}" class="h-14 w-14 rounded-full object-cover">
+                            <img src="{{ asset('prescriptors/'~app.user.slug~'/'~app.user.avatarName) }}" alt="{{ app.user.avatarName }}" class="h-14 w-14 rounded-full object-cover">
                         </div>
                     {% endif %}
                 </div>

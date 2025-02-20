@@ -25,7 +25,7 @@ class QrcodeService
         $objDateTime = new \DateTime('NOW');
         $dateString = $objDateTime->format('d-m-Y H:i:s');
 
-        $path = dirname(__DIR__, 2).'/public/prescriptors/'.$employed->getFirstName().'_'.$employed->getLastName();
+        $path = dirname(__DIR__, 2).'/public/prescriptors/'.$employed->getslug();
 
         // set qrcode
         $builder = new Builder(
