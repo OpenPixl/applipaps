@@ -31,7 +31,7 @@ class EncryptionService
 
     public function getToken($user){
         $numCollaborator = $user->getNumcollaborator();
-        $response = $this->httpClient->request('GET', 'https://papsimmo.openixl.fr/api/authentication_token/'.$numCollaborator.'/getToken');
+        $response = $this->httpClient->request('GET', 'https://papsimmo.openpixl.fr/api/authentication_token/'.$numCollaborator.'/getToken');
         if ($response->getStatusCode() === 200) {
             $data = $response->toArray();
             $token = $data['token'];
