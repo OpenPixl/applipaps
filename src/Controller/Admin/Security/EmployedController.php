@@ -250,7 +250,6 @@ final class EmployedController extends AbstractController
         $scheme = $pathService->getScheme();
         $port = $pathService->getPort();
         $host = $pathService->getHost();
-        dd($scheme, $port, $host);
 
         $viewForm = $this->createForm(EmployedType::class, $employed);
 
