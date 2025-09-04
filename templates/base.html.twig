@@ -27,15 +27,25 @@
             </script>
         {% endblock %}
     </head>
-    <body class="bg-gray-100">
-        {% block navbar %}
-            {{ include('gestapp/app/include/navbar.html.twig') }}
-        {% endblock %}
-        {% block content %}
-        {% endblock %}
-        {% block footer %}
-            {{ include('gestapp/app/include/footerbar.html.twig') }}
-        {% endblock %}
+    <body class="bg-gray-100 h-screen flex flex-col h-screen">
+    {% block body %}
+    {% endblock %}
+        <header class="h-10">
+            {% block navbar %}
+                {{ include('gestapp/app/include/navbar.html.twig') }}
+            {% endblock %}
+        </header>
+        <main class="flex-1 overflow-auto">
+            {% block content %}
+            {% endblock %}
+        </main>
+        <footer class="h-16">
+            {% block footer %}
+                {{ include('gestapp/app/include/footerbar.html.twig') }}
+            {% endblock %}
+        </footer>
+
+
         {% block modals %}
             <div>
                 {{ include('composants/utils/modalWarning.html.twig') }}
