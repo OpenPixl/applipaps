@@ -7,6 +7,9 @@
     <div class="flex flex-col w-full px-2 mb-2 h-1/5">
         <h1 class="uppercase font-bold text-xl text-emerald-900 w-full">Partagez l'application</h1>
         <p>Présentez ce QR-Code à votre contact pour diffuser l'application</p>
+        <p class="text-sm text-center">
+            <span class="text-lg font-semibold">{{ employed.numCollaborator }}</span>
+        </p>
     </div>
     <div class="flex flex-col items-center justify-items-center w-full px-2 mb-2 mt-4 h-4/5">
         <img src="{{ asset('prescriptors/'~ employed.slug ~ '/' ~ employed.qrcodePwa) }}" alt="{{ employed.qrcodePwa }}" class="w-56 h-56 flex flex-row items-center">
