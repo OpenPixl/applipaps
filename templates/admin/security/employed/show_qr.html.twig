@@ -9,7 +9,7 @@
         <p>Présentez ce QR-Code à votre contact pour diffuser l'application</p>
     </div>
     <div class="flex flex-col items-center justify-items-center w-full px-2 mb-2 mt-4 h-4/5">
-        <img src="{{ asset('prescriptors/'~ employed.firstName ~ '_' ~ employed.lastName ~ '/' ~ employed.qrcodePwa) }}" alt="{{ employed.qrcodePwa }}" class="w-56 h-56 flex flex-row items-center">
+        <img src="{{ asset('prescriptors/'~ employed.slug ~ '/' ~ employed.qrcodePwa) }}" alt="{{ employed.qrcodePwa }}" class="w-56 h-56 flex flex-row items-center">
     </div>
 </div>
 {% endblock %}
