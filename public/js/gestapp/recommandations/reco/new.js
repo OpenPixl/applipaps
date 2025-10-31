@@ -1,4 +1,4 @@
-import { showToast, findCommunes } from '../../../component/function.js';
+import { showToast, findCommunes, formatTel } from '../../../component/function.js';
 
 const customerMaidenname = document.getElementById('reco_customerMaiden')
 const civility = document.querySelectorAll('input[name="reco[customerCivility]"]');
@@ -6,6 +6,7 @@ const civility = document.querySelectorAll('input[name="reco[customerCivility]"]
 let city = document.querySelector('#reco_propertyCity');
 let zipcode = document.querySelector('#reco_propertyZipcode');
 let select = document.querySelector('#selectcity');
+let tel = document.querySelector('#reco_customerPhone');
 
 // -- visuel sur le nom de jeune fille --
 let valcivility = document.querySelector('input[name=reco\\[customerCivility\\]]:checked').value;
@@ -31,6 +32,9 @@ select.addEventListener('change', function (event){
     zipcode.value = value[0];
     city.value = value[2].toUpperCase();
 });
+tel.addEventListener('input', function(event){
+    formatTel(tel);
+})
 
 function removeOptions(selectElement) {
     var i, L = selectElement.options.length - 1;

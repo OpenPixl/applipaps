@@ -37,7 +37,7 @@
         </div>
         <div class="flex flex-col gap-0 px-2 pt-1 pb-2">
             {{ form_label(form.customerPhone, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700', 'for': form.customerPhone.vars.label}}) }}
-            {{ form_widget(form.customerPhone,  {'attr': {'class': 'block w-full text-sm px-2 py-1 border-t border-x rounded-t text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Téléphone'}}) }}
+            {{ form_widget(form.customerPhone,  {'attr': {'class': 'block w-full text-sm px-2 py-1 border-t border-x rounded-t text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Téléphone', 'oninput':'formatTel(this)'}}) }}
             {{ form_widget(form.customerEmail,  {'attr': {'class': 'block w-full text-sm px-2 py-1 border rounded-b text-gray-700 focus:outline-none focus:ring-1 focus:z-10 focus:ring-blue-200', 'placeholder' : 'Email'}}) }}
         </div>
     </div>

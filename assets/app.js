@@ -6,6 +6,7 @@
  * which should already be in your base.html.twig.
  */
 import './styles/app.css';
+
 import axios from 'axios';
 
 const dropdownButton = document.getElementById("dropdown-button");

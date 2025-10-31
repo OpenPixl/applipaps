@@ -23,7 +23,10 @@ class RecoController extends AbstractController
     public function index(RecoRepository $recoRepository): Response
     {
         $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');
+        //dd($this->denyAccessUnlessGranted('ROLE_PRESCRIBER'));
         $user = $this->getUser();
+        $hasEmployed = $this->isGranted('ROLE_EMPLOYED');
+        //dd($hasEmployed);
 
         $recos = $recoRepository->findBy(['refPrescripteur' => $user->getId()]);
         $gains = 0;

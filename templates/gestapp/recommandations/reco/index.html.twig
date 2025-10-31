@@ -18,16 +18,22 @@
 
             <div class="flex flex-row items-center w-full mb-1">
                 <div class="w-2/12">
-                    {% if app.user.avatarName is null %}
-                        <div class="bg-gray-200 p-2 rounded-full h-14 w-14 text-gray-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A8.962 8.962 0 0112 15a8.962 8.962 0 016.879 2.804M12 12a4 4 0 100-8 4 4 0 000 8z" />
-                            </svg>
+                    {% if 'ROLE_EMPLOYED' in app.user.roles %}
+                        <div>
+                            <img src="http://papsimmo.openpixl.fr/images/avatar/{{ app.user.avatarName }}" alt="{{ app.user.avatarName }}" class="h-14 w-14 rounded-full object-cover">
                         </div>
                     {% else %}
-                        <div>
-                            <img src="{{ asset('prescriptors/'~app.user.slug~'/'~app.user.avatarName) }}" alt="{{ app.user.avatarName }}" class="h-14 w-14 rounded-full object-cover">
-                        </div>
+                        {% if app.user.avatarName is null %}
+                            <div class="bg-gray-200 p-2 rounded-full h-14 w-14 text-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A8.962 8.962 0 0112 15a8.962 8.962 0 016.879 2.804M12 12a4 4 0 100-8 4 4 0 000 8z" />
+                                </svg>
+                            </div>
+                        {% else %}
+                            <div>
+                                <img src="{{ asset('prescriptors/'~app.user.slug~'/'~app.user.avatarName) }}" alt="{{ app.user.avatarName }}" class="h-14 w-14 rounded-full object-cover">
+                            </div>
+                        {% endif %}
                     {% endif %}
                 </div>
                 <div class="w-9/12">
