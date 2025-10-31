@@ -115,12 +115,13 @@ final class EmployedController extends AbstractController
                     // ... handle exception if something happens during file upload
                 }
                 $employed->setCiFileName($newFilename);
+                $entityManager->flush();
 
                 $token = $encryptionService->getToken($user);
                 if(!$port){
-                    $url = $scheme.'://www.papsimmo.fr/opadmin/employed/ciTransfertApp/'.$newFilename;
+                    $url = $scheme.'://www.'.$host.'/opadmin/employed/ciTransfertApp/'.$newFilename;
                 }else{
-                    $url = $scheme.'://www.papsimmo.fr:'.$port.'/opadmin/employed/ciTransfertApp/'.$newFilename;
+                    $url = $scheme.'://'.$host.':'.$port.'/opadmin/employed/ciTransfertApp/'.$newFilename;
                 }
 
                 try {
@@ -160,14 +161,15 @@ final class EmployedController extends AbstractController
                     // ... handle exception if something happens during file upload
                 }
                 $employed->setAvatarName($newFilename);
+                $entityManager->flush();
 
                 $user = $this->getUser();
                 $token = $encryptionService->getToken($user);
 
                 if(!$port){
-                    $url = $scheme.'://www.papsimmo.fr/opadmin/employed/avatarTransfertApp/'.$newFilename;
+                    $url = $scheme.'://www.'.$host.'/opadmin/employed/avatarTransfertApp/'.$newFilename;
                 }else{
-                    $url = $scheme.'://www.papsimmo.fr:'.$port.'/opadmin/employed/avatarTransfertApp/'.$newFilename;
+                    $url = $scheme.'://'.$host.':'.$port.'/opadmin/employed/avatarTransfertApp/'.$newFilename;
                 }
 
                 try {
