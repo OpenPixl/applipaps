@@ -32,9 +32,9 @@ class EncryptionService
     public function getToken($user){
         $numCollaborator = $user->getNumcollaborator();
         if(!$numCollaborator){
-            $response = $this->httpClient->request('GET', 'https://papsimmo.openpixl.fr/api/authentication_token/prescripteur/'.$user->getEmail());
+            $response = $this->httpClient->request('GET', 'https://papsimmo.fr/api/authentication_token/prescripteur/'.$user->getEmail());
         }else{
-            $response = $this->httpClient->request('GET', 'https://papsimmo.openpixl.fr/api/authentication_token/'.$numCollaborator.'/getToken');
+            $response = $this->httpClient->request('GET', 'https://papsimmo.fr/api/authentication_token/'.$numCollaborator.'/getToken');
         }
 
         if ($response->getStatusCode() === 200) {
