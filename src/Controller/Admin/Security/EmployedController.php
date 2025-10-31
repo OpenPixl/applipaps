@@ -118,9 +118,9 @@ final class EmployedController extends AbstractController
 
                 $token = $encryptionService->getToken($user);
                 if(!$port){
-                    $url = $scheme.'://papsimmo.openpixl.fr/opadmin/employed/ciTransfertApp/'.$newFilename;
+                    $url = $scheme.'://www.papsimmo.fr/opadmin/employed/ciTransfertApp/'.$newFilename;
                 }else{
-                    $url = $scheme.'://papsimmo.openpixl.fr:'.$port.'/opadmin/employed/ciTransfertApp/'.$newFilename;
+                    $url = $scheme.'://www.papsimmo.fr:'.$port.'/opadmin/employed/ciTransfertApp/'.$newFilename;
                 }
 
                 try {
@@ -165,9 +165,9 @@ final class EmployedController extends AbstractController
                 $token = $encryptionService->getToken($user);
 
                 if(!$port){
-                    $url = $scheme.'://papsimmo.openpixl.fr/opadmin/employed/avatarTransfertApp/'.$newFilename;
+                    $url = $scheme.'://www.papsimmo.fr/opadmin/employed/avatarTransfertApp/'.$newFilename;
                 }else{
-                    $url = $scheme.'://papsimmo.openpixl.fr:'.$port.'/opadmin/employed/avatarTransfertApp/'.$newFilename;
+                    $url = $scheme.'://www.papsimmo.fr:'.$port.'/opadmin/employed/avatarTransfertApp/'.$newFilename;
                 }
 
                 try {

@@ -33,9 +33,15 @@ class EncryptionService
         $numCollaborator = $user->getNumcollaborator();
         if(!$numCollaborator){
             $email = urlencode($user->getEmail());
-            $response = $this->httpClient->request('GET', 'https://papsimmo.fr/api/authentication_token/prescripteur/'.$email);
+            //dd($email);
+            $response = $this->httpClient->request('GET', 'https://www.papsimmo.fr/api/authentication_token/prescripteur/'.$email,
+                [
+                    'headers' => [
+                        'Accept' => 'application/ld+json',
+                    ],
+                ]);
         }else{
-            $response = $this->httpClient->request('GET', 'https://papsimmo.fr/api/authentication_token/'.$numCollaborator.'/getToken');
+            $response = $this->httpClient->request('GET', 'https://www.papsimmo.fr/api/authentication_token/'.$numCollaborator.'/getToken');
         }
 
         if ($response->getStatusCode() === 200) {
