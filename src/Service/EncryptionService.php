@@ -32,7 +32,8 @@ class EncryptionService
     public function getToken($user){
         $numCollaborator = $user->getNumcollaborator();
         if(!$numCollaborator){
-            $response = $this->httpClient->request('GET', 'https://papsimmo.fr/api/authentication_token/prescripteur/'.$user->getEmail());
+            $email = urlencode($user->getEmail());
+            $response = $this->httpClient->request('GET', 'https://papsimmo.fr/api/authentication_token/prescripteur/'.$email);
         }else{
             $response = $this->httpClient->request('GET', 'https://papsimmo.fr/api/authentication_token/'.$numCollaborator.'/getToken');
         }
