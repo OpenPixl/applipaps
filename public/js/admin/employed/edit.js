@@ -102,6 +102,13 @@ function validModal(event){
                 }
                 else if(response.data.type === 'avatar'){
                     document.getElementById('addAvatar').innerHTML = response.data.view
+                    window.dispatchEvent(new CustomEvent('toast', {
+                        detail: {
+                            message: response.data.message,
+                            type: 'success',
+                            duration: '5000',
+                        },
+                    }));
                 }
                 else if(response.data.type === 'iban'){
                     document.getElementById('iban').innerHTML = response.data.view
@@ -110,6 +117,7 @@ function validModal(event){
             .catch(function(error){
                 console.log(error)
             })
+        reloadEvents;
     }else if(crud === "SUBMIT"){
         let form = document.getElementById('formReco');
         let action = form.action;

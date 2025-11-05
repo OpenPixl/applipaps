@@ -5,6 +5,7 @@ namespace App\Controller\Admin\Security;
 use App\Entity\Admin\Security\Employed;
 use App\Form\Admin\Security\EmployedType;
 use App\Repository\Admin\Security\EmployedRepository;
+use App\Service\ApplicationService;
 use App\Service\EncryptionService;
 use App\Service\pathService;
 use App\Service\QrcodeService;
@@ -21,6 +22,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 final class EmployedController extends AbstractController
 {
     public function __construct(
+        public ApplicationService $applicationService,
         private HttpClientInterface $httpClient
     ){}
 
@@ -90,8 +92,8 @@ final class EmployedController extends AbstractController
         $form->handleRequest($request);
 
         $scheme = $pathService->getScheme();
-        $port = $pathService->getPort();
-        $host = $pathService->getHost();
+        $port = $this->applicationService->getPwaHost();
+        $url = $this->applicationService->getPwaUrl();
 
         if ($form->isSubmitted() && $form->isValid()) {
             // ajout de la carte d'identité
@@ -119,13 +121,13 @@ final class EmployedController extends AbstractController
 
                 $token = $encryptionService->getToken($user);
                 if(!$port){
-                    $url = $scheme.'://www.'.$host.'/opadmin/employed/ciTransfertApp/'.$newFilename;
+                    $urlcontroller = $scheme.'://'.$url.'/opadmin/employed/ciTransfertApp/'.$newFilename;
                 }else{
-                    $url = $scheme.'://'.$host.':'.$port.'/opadmin/employed/ciTransfertApp/'.$newFilename;
+                    $urlcontroller = $scheme.'://'.$url.':'.$port.'/opadmin/employed/ciTransfertApp/'.$newFilename;
                 }
 
                 try {
-                    $response = $this->httpClient->request('GET', $url, [
+                    $response = $this->httpClient->request('GET', $urlcontroller, [
                         'headers' => [
                             'Authorization' => 'Bearer ' . $token,
                             'Accept' => 'application/json',
@@ -166,17 +168,19 @@ final class EmployedController extends AbstractController
                 $user = $this->getUser();
                 $token = $encryptionService->getToken($user);
 
+                //dd($token);
+
                 if(!$port){
-                    $url = $scheme.'://www.papsimmo.fr/opadmin/employed/avatarTransfertApp/'.$newFilename;
+                    $urlController = $scheme.'://'.$url.'/opadmin/employed/avatarTransfertApp/'.$newFilename;
                 }else{
-                    $url = $scheme.'://'.$host.':'.$port.'/opadmin/employed/avatarTransfertApp/'.$newFilename;
+                    $urlController = $scheme.'://'.$url.':'.$port.'/opadmin/employed/avatarTransfertApp/'.$newFilename;
                 }
 
                 try {
-                    $response = $this->httpClient->request('GET', $url, [
+                    $response = $this->httpClient->request('GET', $urlController, [
                         'headers' => [
                             'Authorization' => 'Bearer ' . $token,
-                            'Accept' => 'application/json',
+                            //'Accept' => 'application/json',
                         ],
                     ]);
 
@@ -271,7 +275,7 @@ final class EmployedController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');
         $AvatarName = $employed->getAvatarName();
         if ($AvatarName) {
-            $path = $this->getParameter('prescriptors_directory') . '/' . $AvatarName;
+            $path = $this->getParameter('prescriptors_directory'). '/' . $employed->getSlug() . '/' . $AvatarName;
             // On vérifie si l'image existe
             if (file_exists($path)) {
                 unlink($path);
