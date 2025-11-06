@@ -28,10 +28,10 @@ class RegistrationForm2Type extends AbstractType
                     'class' => 'radio-inline'
                 ],
                 'choices'  => [
-                    'M.' => 1,
-                    "Mme" => 2,
+                    'M.' => '1',
+                    "Mme" => '2',
                 ],
-                'empty_data' => 1,
+                'empty_data' => '1',
                 'expanded' => true,
                 'multiple' => false
             ])
@@ -40,10 +40,6 @@ class RegistrationForm2Type extends AbstractType
             ])
             ->add('maidenName')
             ->add('lastName')
-            ->add('numCollaborator', TextType::class, [
-                'label' => 'Code du Mandataire',
-                'mapped' => false
-            ])
             ->add('gsm', TelType::class, [
                 'label' => 'Portable | Fixe',
                 'required' => true,

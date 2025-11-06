@@ -33,6 +33,7 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
 
@@ -141,15 +142,14 @@ class RegistrationController extends AbstractController
     ): Response
     {
         $collaborateur = $employedRepository->findOneBy(['id'=> $idEmployed]);
+
         $user = new Employed();
 
         $form = $this->createForm(RegistrationForm2Type::class, $user);
+        //dd($request);
         $form->handleRequest($request);
 
-        $form->get('numCollaborator')->setData($collaborateur->getNumCollaborator());
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $code = $form->get('numCollaborator')->getData();
 
             //dd($collaborateur);
             if($collaborateur){
@@ -206,6 +206,7 @@ class RegistrationController extends AbstractController
 
         return $this->render('admin/security/registration/register2.html.twig', [
             'registrationForm' => $form->createView(),
+            'collaborator' => $collaborateur,
         ]);
     }
 
