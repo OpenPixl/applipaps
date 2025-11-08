@@ -23,6 +23,8 @@ final class EmployedController extends AbstractController
 {
     public function __construct(
         public ApplicationService $applicationService,
+        public PathService $pathService,
+        public EncryptionService $encryptionService,
         private HttpClientInterface $httpClient
     ){}
 
@@ -92,8 +94,8 @@ final class EmployedController extends AbstractController
         $form->handleRequest($request);
 
         $scheme = $pathService->getScheme();
-        $port = $this->applicationService->getPwaHost();
-        $url = $this->applicationService->getPwaUrl();
+        $port = $this->applicationService->getWebappHost();
+        $url = $this->applicationService->getWebappUrl();
 
         if ($form->isSubmitted() && $form->isValid()) {
             // ajout de la carte d'identité
@@ -106,6 +108,7 @@ final class EmployedController extends AbstractController
                     if (file_exists($pathheader)) {
                         unlink($pathheader);
                     }
+                    $this->removeCiWebapp($employed, $encryptionService, $pathService);
                 }
                 $newFilename = 'ci-'. $user->getSlug() . '.' . $ci->guessExtension();
                 try {
@@ -150,6 +153,7 @@ final class EmployedController extends AbstractController
                     if (file_exists($pathheader)) {
                         unlink($pathheader);
                     }
+                    $this->removeAvatarWebapp($employed, $encryptionService, $pathService);
                 }
                 $originalFilename = pathinfo($avatar->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
@@ -167,8 +171,6 @@ final class EmployedController extends AbstractController
 
                 $user = $this->getUser();
                 $token = $encryptionService->getToken($user);
-
-                //dd($token);
 
                 if(!$port){
                     $urlController = $scheme.'://'.$url.'/opadmin/employed/avatarTransfertApp/'.$newFilename;
@@ -237,6 +239,30 @@ final class EmployedController extends AbstractController
     public function removeCi(Request $request, Employed $employed,EncryptionService $encryptionService, EntityManagerInterface $em, pathService $pathService): Response
     {
         $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');
+
+        // Suppression du fichier sur le serveur SoftPAPs
+        $user = $this->getUser();
+        $token = $encryptionService->getToken($user);
+        $url = $this->applicationService->getWebappUrl();
+        $port = $this->applicationService->getWebappHost();
+        if(!$port){
+            $urlController = $this->pathService->getScheme().'://'.$url.'/admin/prescriber/'.$employed->getId().'/suppr/ci';
+        }else{
+            $urlController = $this->pathService->getScheme().'://'.$url.':'.$port.'/admin/prescriber/'.$employed->getId().'/suppr/ci';
+        }
+        try {
+            $response = $this->httpClient->request('GET', $urlController, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $token,
+                    //'Accept' => 'application/json',
+                ],
+            ]);
+            $data = $response->toArray();
+
+        } catch (\Exception $e) {
+            return $this->json(['error' => 'Erreur : ' . $e->getMessage()], 500);
+        }
+
         $ciFilename = $employed->getCiFileName();
         if ($ciFilename) {
             $path = $this->getParameter('prescriptors_directory').'/'.$employed->getSlug().'/'. $ciFilename;
@@ -246,17 +272,11 @@ final class EmployedController extends AbstractController
             }
         }
 
-        $form = $this->createForm(EmployedType::class, $employed);
-        $form->handleRequest($request);
-
+        // Modification en BDD
         $employed->setCiFileName(null);
         $em->flush();
 
-        $token = $encryptionService->getToken($employed);
-        $scheme = $pathService->getScheme();
-        $port = $pathService->getPort();
-        $host = $pathService->getHost();
-
+        // Génération du formulaire pour recharger le div du Form
         $viewForm = $this->createForm(EmployedType::class, $employed);
 
         return $this->json([
@@ -269,11 +289,66 @@ final class EmployedController extends AbstractController
         ], 200);
     }
 
-    #[Route('/app/prescriptor/{id}/removeavatar', name: 'paps_admin_security_employed_removeavatar', methods: ['POST'])]
-    public function removeAvatar(Request $request, Employed $employed, EntityManagerInterface $em): Response
+    #[Route('/app/prescriptor/{id}/removeciwebapp', name: 'paps_admin_security_employed_removeciwebapp', methods: ['POST'])]
+    public function removeCiWebapp(Employed $employed,EncryptionService $encryptionService, pathService $pathService): Response
     {
         $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');
+
+        // Suppression du fichier sur le serveur SoftPAPs
+        $user = $this->getUser();
+        $token = $encryptionService->getToken($user);
+        $url = $this->applicationService->getWebappUrl();
+        $port = $this->applicationService->getWebappHost();
+        if(!$port){
+            $urlController = $this->pathService->getScheme().'://'.$url.'/admin/prescriber/'.$employed->getId().'/suppr/ci';
+        }else{
+            $urlController = $this->pathService->getScheme().'://'.$url.':'.$port.'/admin/prescriber/'.$employed->getId().'/suppr/ci';
+        }
+        try {
+            $response = $this->httpClient->request('GET', $urlController, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $token,
+                    //'Accept' => 'application/json',
+                ],
+            ]);
+            return $this->json(['valid' => 'Ok'], 200);
+
+        } catch (\Exception $e) {
+            return $this->json(['error' => 'Erreur : ' . $e->getMessage()], 500);
+        }
+    }
+
+    #[Route('/app/prescriptor/{id}/removeavatar', name: 'paps_admin_security_employed_removeavatar', methods: ['POST'])]
+    public function removeAvatar(Request $request, Employed $employed, EntityManagerInterface $em, EncryptionService $encryptionService,): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');
+
+        // Suppression du fichier sur le serveur SoftPAPs
+        $user = $this->getUser();
+        $token = $encryptionService->getToken($user);
+        $url = $this->applicationService->getWebappUrl();
+        $port = $this->applicationService->getWebappHost();
+        if(!$port){
+            $urlController = $this->pathService->getScheme().'://'.$url.'/admin/prescriber/'.$employed->getId().'/suppr/avatar';
+        }else{
+            $urlController = $this->pathService->getScheme().'://'.$url.':'.$port.'/admin/prescriber/'.$employed->getId().'/suppr/avatar';
+        }
+
+        try {
+            $response = $this->httpClient->request('GET', $urlController, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $token,
+                    //'Accept' => 'application/json',
+                ],
+            ]);
+            $data = $response->toArray();
+        } catch (\Exception $e) {
+            return $this->json(['error' => 'Erreur : ' . $e->getMessage()], 500);
+        }
+
+        // Supression de l'avatar sur l'application PWA
         $AvatarName = $employed->getAvatarName();
+
         if ($AvatarName) {
             $path = $this->getParameter('prescriptors_directory'). '/' . $employed->getSlug() . '/' . $AvatarName;
             // On vérifie si l'image existe
@@ -281,9 +356,6 @@ final class EmployedController extends AbstractController
                 unlink($path);
             }
         }
-
-        $form = $this->createForm(EmployedType::class, $employed);
-        $form->handleRequest($request);
 
         $employed->setAvatarName(null);
         $em->flush();
@@ -298,6 +370,35 @@ final class EmployedController extends AbstractController
                 'form' => $viewForm
             ]),
         ], 200);
+    }
+
+    #[Route('/app/prescriptor/{id}/removeavatarwebapp', name: 'paps_admin_security_employed_removeavatarwebapp', methods: ['POST'])]
+    public function removeAvatarWebapp(Employed $employed,EncryptionService $encryptionService, pathService $pathService): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');
+
+        // Suppression du fichier sur le serveur SoftPAPs
+        $user = $this->getUser();
+        $token = $encryptionService->getToken($user);
+        $url = $this->applicationService->getWebappUrl();
+        $port = $this->applicationService->getWebappHost();
+        if(!$port){
+            $urlController = $this->pathService->getScheme().'://'.$url.'/admin/prescriber/'.$employed->getId().'/suppr/avatar';
+        }else{
+            $urlController = $this->pathService->getScheme().'://'.$url.':'.$port.'/admin/prescriber/'.$employed->getId().'/suppr/avatar';
+        }
+        try {
+            $response = $this->httpClient->request('GET', $urlController, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $token,
+                    //'Accept' => 'application/json',
+                ],
+            ]);
+            return $this->json(['valid' => 'Ok'], 200);
+
+        } catch (\Exception $e) {
+            return $this->json(['error' => 'Erreur : ' . $e->getMessage()], 500);
+        }
     }
 
     #[Route('/app/prescriptor/{id}/removeiban', name: 'paps_admin_security_employed_removeiban', methods: ['POST'])]

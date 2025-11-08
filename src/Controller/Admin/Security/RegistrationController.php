@@ -171,7 +171,7 @@ class RegistrationController extends AbstractController
                     (new TemplatedEmail())
                         ->from(new Address('contact@papsimmo40.fr', 'Contact Paps Immo 40'))
                         ->to($user->getEmail())
-                        ->subject('Please Confirm your Email')
+                        ->subject('AppliPAPs - Confirmation de votre email')
                         ->htmlTemplate('admin/security/registration/confirmation_email2.html.twig')
                 );
 
@@ -193,7 +193,11 @@ class RegistrationController extends AbstractController
                 $entityManager->persist($contact);
                 $entityManager->flush();
 
-                $this->addFlash('success', 'Votre compte est crée. Toutefois, un lien de confirmation va être envoyé à l\'adresse indiquée pour confirmation. <br>L\'inscription sera définitive après validation de votre part.');
+                $this->addFlash('success', '
+                    <p>Votre compte est crée. Toutefois, un lien de confirmation va être envoyé à l\'adresse indiquée pour confirmation.
+                        <br>L\'inscription sera définitive après validation de votre part.
+                    </p>
+                   ');
                 // do anything else you need here, like send an email
                 return $this->redirectToRoute('paps_gestapp_app_dashboard');
             }else{
