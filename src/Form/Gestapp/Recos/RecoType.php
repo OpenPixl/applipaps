@@ -12,6 +12,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -63,6 +64,7 @@ class RecoType extends AbstractType
                     'Maison' => 'maison',
                     'Appartement' => 'appartement',
                     'Local commercial' => 'local_commercial',
+                    'Terrain' => 'terrain',
                 ],
                 'choice_attr' => [
                     'Maison' => ['data-data' => 'maison'],
@@ -73,9 +75,9 @@ class RecoType extends AbstractType
             ->add('typeReco', ChoiceType::class,[
                 'label' => 'Type de recommandation',
                 'choices'  => [
-                    'Mettre en vente' => 'vente',
-                    'Mettre en location' => 'location',
-                    'Devenir Acquéreur' => 'Acquisition',
+                    'Vendre' => 'vendre',
+                    'Louer' => 'louer',
+                    'Acheter' => 'Acheter',
                 ],
                 'choice_attr' => [
                     'Mettre en vente' => ['data-data' => 'Mettre en vente'],
@@ -85,6 +87,9 @@ class RecoType extends AbstractType
             ])
             ->add('isAuthCustomer', CheckboxType::class, [
                 'label' => 'En validant la case, je déclare avoir eu le consentement du client prospect fin de communiquer ses coordonnées dans le cadre de son projet immobilier'
+            ])
+            ->add('commentaires', TextareaType::class, [
+                'label' => 'Commentaires',
             ])
         ;
     }

@@ -152,6 +152,9 @@ class Reco
     #[ORM\Column]
     private ?bool $isAuthCustomer = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $commentaires = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -659,6 +662,18 @@ class Reco
     public function setIsAuthCustomer(bool $isAuthCustomer): static
     {
         $this->isAuthCustomer = $isAuthCustomer;
+
+        return $this;
+    }
+
+    public function getCommentaires(): ?string
+    {
+        return $this->commentaires;
+    }
+
+    public function setCommentaires(?string $commentaires): static
+    {
+        $this->commentaires = $commentaires;
 
         return $this;
     }
