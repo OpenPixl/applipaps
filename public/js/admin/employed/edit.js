@@ -46,7 +46,8 @@ function openModal(event){
                 console.log(error)
             });
         reloadEvents();
-    }else if(crud === "DEL_AVATAR"){
+    }
+    else if(crud === "DEL_AVATAR"){
         modalWarning.querySelector('#modal_body #modal_body_title').innerHTML = 'Suppression de l\'avatar';
         modalWarning.querySelector('#modal_body #modal_body_icon').innerHTML =
             '<svg class="w-10 h-10 text-amber-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"\n' +
@@ -58,7 +59,8 @@ function openModal(event){
         modalWarning.querySelector('#modal_footer .validModal').href = url;
         modalWarning.querySelector('#modal_footer .validModal').addEventListener('click', validModal);
         reloadEvents();
-    }else if(crud === "DEL_CI"){
+    }
+    else if(crud === "DEL_CI"){
         modalWarning.querySelector('#modal_body #modal_body_title').innerHTML = 'Suppression de la pièce d\'identité';
         modalWarning.querySelector('#modal_body #modal_body_icon').innerHTML =
             '<svg class="w-10 h-10 text-amber-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"\n' +
@@ -70,13 +72,13 @@ function openModal(event){
         modalWarning.querySelector('#modal_footer .validModal').href = url;
         modalWarning.querySelector('#modal_footer .validModal').addEventListener('click', validModal);
         reloadEvents();
-    }else if(crud === "DEL_IBAN"){
+    }
+    else if(crud === "DEL_IBAN"){
         modalWarning.querySelector('#modal_body #modal_body_title').innerHTML = '<h3 class="text-sm font-normal text-gray-500">Vous êtes sur le point de supprimer le document. Etes-vous sûr ?</h3>';
         modalWarning.querySelector('#modal_footer .validModal').href = url;
         modalWarning.querySelector('#modal_footer .validModal').addEventListener('click', validModal);
         reloadEvents();
     }
-
 }
 
 function closeModal(){

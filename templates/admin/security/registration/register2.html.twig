@@ -28,7 +28,14 @@
 
             <div class="mb-2">
                 <label class="block text-sm font-medium text-emerald-900 required" for="registration_form2_numCollaborator">Code du Mandataire</label>
-                <input type="text" id="registration_form2_numCollaborator" name="registration_form2[numCollaborator]" required="required" class="w-full text-sm px-2 py-1 border-emerald-700 border-[1px] rounded text-emerald-900 focus:outline-none focus:ring-1 focus:ring-blue-200" value="{{ collaborator.numCollaborator }}" disabled>
+                <input type="text"
+                       id="registration_form2_numCollaborator"
+                       name="registration_form2[numCollaborator]"
+                       required="required"
+                       class="w-full text-sm px-2 py-1 border-emerald-700 border-[1px] rounded text-emerald-900 focus:outline-none focus:ring-1 focus:ring-blue-200"
+                       value="{{ collaborator.numCollaborator }}"
+                       {% if app.request.attributes.get('_route') === 'paps_security_register_byqr' %}disabled{% else %}{% endif %}
+                >
             </div>
 
             <div class="flex flex-col items-left gap-0 mb-2">
