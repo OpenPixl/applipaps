@@ -91,7 +91,7 @@ class RegistrationForm2Type extends AbstractType
                 ],
             ])
             ->add('numCollaborator', TextType::class, [
-                'label' => 'Nom du collaborateur',
+                'label' => 'Code Collaborateur',
                 'mapped' => false,
                 'required' => true,
                 'constraints' => [
