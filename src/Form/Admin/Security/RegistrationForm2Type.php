@@ -90,7 +90,7 @@ class RegistrationForm2Type extends AbstractType
                     ]),
                 ],
             ])
-            ->add('collaborator', TextType::class, [
+            ->add('numCollaborator', TextType::class, [
                 'label' => 'Nom du collaborateur',
                 'mapped' => false,
                 'required' => true,

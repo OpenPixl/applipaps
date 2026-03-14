@@ -33,7 +33,7 @@
                        name="registration_form2[numCollaborator]"
                        required="required"
                        class="w-full text-sm px-2 py-1 border-emerald-700 border-[1px] rounded text-emerald-900 focus:outline-none focus:ring-1 focus:ring-blue-200"
-                       value="{{ collaborator.numCollaborator }}"
+                       value="{{ registrationForm.numCollaborator }}"
                        {% if app.request.attributes.get('_route') == 'paps_security_register_byqr' %}disabled{% else %}{% endif %}
                 >
             </div>
