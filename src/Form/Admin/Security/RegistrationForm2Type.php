@@ -90,6 +90,14 @@ class RegistrationForm2Type extends AbstractType
                     ]),
                 ],
             ])
+            ->add('collaborator', TextType::class, [
+                'label' => 'Nom du collaborateur',
+                'mapped' => false,
+                'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank()
+                ],
+            ])
         ;
     }
 
